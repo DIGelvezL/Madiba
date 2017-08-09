@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+ 	  xmlns:c="http://java.sun.com/jsp/jstl/core"> 
+
+<h:head></h:head> 
+<body>
+<ui:composition>
+	<div class="box-body table-responsive ">
+		<table class="table" style="white-space: nowrap;">
+			<thead>
+				<tr>
+					<th>Select</th>
+					<th>Estado</th>
+					<th>N° Radicado</th>
+					<th>Fecha</th>
+					<th>Pretenciones</th>
+					<th>Conciliador por</th>
+					<th>Conciliador</th>	
+					<th>Convocados</th>
+					<th>Convocantes</th>
+					<th>Tipo Pago</th>
+					<th>Banco</th>
+					<th>Referencia N°</th>
+					<th>Forma de Pago</th>
+					<th>Fecha Pago</th>
+					<th>Valor Pagado</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ui:repeat var="solicitud" value="#{listaSolicitud}">
+				<tr class="#{controllerSolicitud.seleccionarSolicitud(solicitud,solicitud.estado)}">
+					<td>
+						<h:panelGrid class="btn btn-xs btn-primary">
+							<f:ajax event="click" listener="#{modelSolicitud.addSelectSolicitud(solicitud,solicitud.estado)}" render="#{formulario}"></f:ajax>
+							<i class="fa #{controllerSolicitud.changeIconSelect(solicitud)}"></i>
+	            		</h:panelGrid>
+					</td>
+					<td>					
+						<h:outputLabel value="#{solicitud.estado}" styleClass="label label-#{controllerSolicitud.colorSolicitudEstado(solicitud.estado)}"/>
+					</td>
+					
+					<td>#{solicitud.nroRadicado}</td>
+					
+					<td>#{solicitud.fecha}</td>
+					
+					<td class="text-right">
+						 <h:outputText value="#{controllerSolicitud.pretencionesSolicitud(solicitud)}">
+					    	<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+		                </h:outputText>
+					</td>	
+				
+					<td>
+						 <h:outputText value="#{solicitud.designacions.get(solicitud.designacions.size()-1).tipoDesignacion}" />
+					</td>
+				
+					<td>
+						<h:outputText value="#{solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.apellidos} #{solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.nombres} "/>
+					</td>
+				
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="partes" value="#{solicitud.partes}" >
+								<h:panelGroup rendered="#{partes.tipoParte=='Convocado'}">
+									<li><h:outputText value="#{partes.apellidos} #{partes.nombres}" /></li>
+								</h:panelGroup>
+							</ui:repeat>
+						</ul>
+					</td>
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="partes" value="#{solicitud.partes}" >
+								<h:panelGroup rendered="#{partes.tipoParte=='Convocante'}">
+									<li><h:outputText value="#{partes.apellidos} #{partes.nombres}" /></li>
+								</h:panelGroup>
+							</ui:repeat>
+						</ul>
+					</td>
+					
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+								<li>
+									<h:outputLabel value="Sobrecosto" rendered="#{pagos.estado=='SPAGADO' || pagos.estado=='SNOPAGADO'}" styleClass="label label-danger" />
+									<h:outputLabel value="Pago Inicial" rendered="#{pagos.estado=='PAGADO'}" styleClass="label label-success" />
+								
+								</li>
+							</ui:repeat>
+						</ul>
+					</td>
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+								<li>
+									<h:outputText rendered="#{pagos.estado=='PAGADO'}" value=" #{controllerDominio.nombreDominio(pagos.banco)}" />
+								</li>
+							</ui:repeat>
+						</ul>
+					</td>
+				
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+								<li class="text-center"><h:outputText rendered="#{pagos.estado=='PAGADO'}" value="#{pagos.referencia}" /></li>
+							</ui:repeat>
+						</ul>
+					</td>
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+	              				<li><h:outputText style="padding-left:5%" rendered="#{pagos.estado=='PAGADO'}" value="#{controllerDominio.nombreDominio(pagos.formaPago)}" /></li>
+	              				<li><h:outputText style="padding-left:5%" rendered="#{pagos.estado=='SPAGADO'}" value="#{controllerDominio.nombreDominio(pagos.formaPago)}" /></li>
+							</ui:repeat>
+						</ul>
+					</td>
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+								<li><h:outputText value="#{pagos.fecha}" /></li>
+							</ui:repeat>				
+						</ul>	
+					</td>
+					<td>
+						<ul class="list-unstyled">
+							<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+								<li class="text-right">
+									<h:outputText value="#{pagos.valor}" >
+								    	<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+					                </h:outputText>
+								</li>
+							</ui:repeat>				
+						</ul>	
+					</td>
+				</tr>	
+				</ui:repeat>				
+			</tbody>
+		</table>
+	</div>
+</ui:composition>
+
+</body> 
+</html>

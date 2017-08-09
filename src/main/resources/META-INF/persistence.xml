@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<persistence version="2.0"
+   xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+   <persistence-unit name="MadibaPU" transaction-type="JTA">
+      <!-- If you are running in a production environment, add a managed 
+         data source, this example data source is just for development and testing! -->
+      <!-- The datasource is deployed as WEB-INF/Madiba-ds.xml, you
+         can find it in the source at src/main/webapp/WEB-INF/Madiba-ds.xml -->
+      <!-- <jta-data-source>java:/ConMadiba</jta-data-source> -->
+      <jta-data-source>java:jboss/MadibaPU</jta-data-source>
+      <class>entidades.Agenda</class>
+      <class>entidades.Anexo</class>
+      <class>entidades.Asistencia</class>
+      <class>entidades.Audiencia</class>
+      <class>entidades.Auditoria</class>
+      <class>entidades.Conciliador</class>
+      <class>entidades.Conciliador_Especialidad</class>
+      <class>entidades.Designacion</class>
+      <class>entidades.Dominio</class>
+      <class>entidades.Especialidad</class>
+      <class>entidades.Pago</class>
+      <class>entidades.Parte</class>
+      <class>entidades.Reparto</class>
+      <class>entidades.Resultado</class>
+      <class>entidades.Sala</class>
+      <class>entidades.Solicitud</class>
+      <class>entidades.Usuario</class>
+      <class>entidades.Actas_Conciliacione</class>
+      <class>entidades.Copia</class>
+      <class>entidades.Devolucione</class>
+      <class>entidades.Audconcil</class>
+      <validation-mode>CALLBACK</validation-mode>
+      <properties>
+         <!-- Properties for Hibernate -->
+         <property name="hibernate.hbm2ddl.auto" value="update" />
+         <property name="hibernate.show_sql" value="false" />
+      </properties>
+   </persistence-unit>
+</persistence>

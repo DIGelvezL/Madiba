@@ -1,0 +1,66 @@
+
+.login-div {
+	border-radius: 15px;
+	border: 6px double #03abeb;
+}
+
+.avatar {
+	width: 25px;
+}
+
+.seleccionar-solicitud {
+	background-color: aliceblue;
+}
+.seleccionar-solicitud-warning {
+	background-color: rgba(243, 156, 18, 0.27);
+}
+
+.seleccionar-solicitud-success  {
+	background-color: rgba(0, 166, 89, 0.27);
+}
+
+.seleccionar-solicitud-info {
+	background-color: rgba(0, 192, 237, 0.20);
+}
+
+.seleccionar-solicitud-primary {
+	background-color: rgba(60, 141, 188, 0.25);
+}
+
+.seleccionar-solicitud-black {
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.box-black{
+	border-top-color: #000000;
+}
+
+.label-black{
+	background-color: #000000;
+}
+.sombra {
+	box-shadow: 2px 2px 5px #999;
+}
+
+.btn-menu {
+	margin-left: 5px;
+	border-radius: 140px 140px 140px 140px;
+}
+
+.btn-menu:hover{
+	transform: scale(1.5,1.5);
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
+.espacio5{
+	padding-left:5%
+}
+
+.inputPretenciones{
+	border-radius: 140px 140px 140px 140px;
+}
+
+.divPretenciones{
+	padding-top: 7px;
+}

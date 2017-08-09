@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head></h:head>
+<body>
+	<ui:composition>
+		
+		<h:panelGroup layout="block" styleClass="col-lg-6 col-md-12 col-sm-12 col-xs-12">	
+			<f:ajax event="click" listener="#{modelSolicitud.addSelectSolicitud(solicitud,solicitud.estado)}" render="#{formulario}" ></f:ajax>	 
+			<h:panelGroup layout="block" styleClass="box box-#{controllerSolicitud.colorSolicitudEstado(solicitud.estado)} sombra #{controllerSolicitud.seleccionarSolicitud(solicitud,solicitud.estado)}">
+				
+				<div class="box-header with-border" style="padding-bottom:0px">
+					<i>
+						<h:outputLabel value="Radicado No. #{solicitud.nroRadicado}" style="font-size:14pt; margin-left:1%"/>
+					</i>
+					<p:outputLabel value="#{solicitud.estado}" styleClass="label label-#{controllerSolicitud.colorSolicitudEstado(solicitud.estado)} pull-right" />
+				</div>
+				<div class='box-body'>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              				<h:outputLabel value="Fecha de Solicitud" />
+							<br/>
+							<h:outputText style="padding-left:10%" value=" #{solicitud.fecha}" />
+							<br/>
+							<h:outputLabel value="Convocantes" />
+							<ul>
+								<ui:repeat var="partes" value="#{solicitud.partes}" >
+									<h:panelGroup rendered="#{partes.tipoParte=='Convocante'}">
+										<li><h:outputText value="#{partes.apellidos} #{partes.nombres}" /></li>
+									</h:panelGroup>
+								</ui:repeat>
+							</ul>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							<h:outputLabel value="Conciliador" />
+							<br/>
+							<h:outputText style="padding-left:10%" value="#{solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.apellidos} #{solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.nombres}" />							
+							<br/>
+							<h:outputLabel value="Convocados" />
+							<ul>
+								<ui:repeat var="partes" value="#{solicitud.partes}" >
+									<h:panelGroup rendered="#{partes.tipoParte=='Convocado'}">
+										<li><h:outputText value="#{partes.apellidos} #{partes.nombres}" /></li>
+									</h:panelGroup>
+								</ui:repeat>
+							</ul>							
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<h:outputLabel value="Descripción" />
+							<br/>
+							<h:outputText style="padding-left:5%" value=" #{solicitud.asunto}" />
+						</div>
+					</div>
+				</div>
+				<ui:repeat var="pagos" value="#{solicitud.pagos}" >
+					<h:panelGroup layout="block" rendered="#{solicitud.estado!='GRABADA'}" styleClass="box-body" style="border-top: 1px solid #f4f4f4;">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<h:outputLabel value="Fecha de Pago:" />
+	              				<h:outputText style="padding-left:5%" rendered="#{pagos.estado=='PAGADO' || pagos.estado=='SPAGADO'}" value="#{pagos.fecha}" />
+	              				<br/>
+	              				
+								<h:panelGroup layout="block" rendered="#{pagos.estado=='PAGADO'}">
+		              				<h:outputLabel value="Banco:" rendered="#{pagos.estado=='PAGADO'}"/>
+		              				<h:outputText style="padding-left:5%" rendered="#{pagos.estado=='PAGADO'}" value="#{controllerDominio.nombreDominio(pagos.banco)}" />
+		              				<br/>              				
+	              				</h:panelGroup>
+	              				<h:outputLabel value="Forma de Pago:" />
+	              				<h:outputText style="padding-left:5%" rendered="#{pagos.estado=='PAGADO'}" value="#{controllerDominio.nombreDominio(pagos.formaPago)}" />
+	              				<h:outputText style="padding-left:5%" rendered="#{pagos.estado=='SPAGADO'}" value="#{controllerDominio.nombreDominio(pagos.formaPago)}" />
+	           				</div>
+	           				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+           						<h:outputLabel value="Sobrecosto" rendered="#{pagos.estado=='SPAGADO' || pagos.estado=='SNOPAGADO'}" styleClass="pull-right label label-danger" />
+								<h:outputLabel value="Pago Inicial" rendered="#{pagos.estado=='PAGADO'}" styleClass="pull-right label label-success" />
+								<br/>
+								<h:panelGroup layout="block" rendered="#{pagos.estado=='PAGADO'}">
+		              				<h:outputLabel value="Referencia:"/>
+		              				<h:outputText style="padding-left:5%" value="#{pagos.referencia}" />
+		              				<br/>
+	              				</h:panelGroup>              				
+	              				<h:outputLabel value="Valor:" />
+	              				<h:outputText style="padding-left:5%" value="#{controllerSolicitud.mascaraValor(pagos.valor)}" >
+							    	<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+				                </h:outputText>
+	           				</div>
+	       				</div>
+							
+					</h:panelGroup>
+				</ui:repeat>
+				<h:panelGroup layout="block" styleClass="box-body" style="border-top: 1px solid #f4f4f4;">
+		          	<div class="col-lg-6">
+			            <h:outputLabel value="Pretenciones:" />			            
+ 						<h:outputText style="padding-left:5%" value="#{controllerSolicitud.pretencionesSolicitud(solicitud)}">
+					    	<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+		                </h:outputText>	
+			            
+		          	</div>
+		          	<div class="col-lg-6">
+			            <h:outputLabel value="Conciliador por:" />
+			            <h:outputText style="padding-left:5%" value="#{solicitud.designacions.get(solicitud.designacions.size()-1).tipoDesignacion}" />
+		          	</div>
+		        </h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,65 @@
+
+cnectar el proyecto con wildfly
+
+Importal el plugin wildfly
+<plugin>
+    <groupId>org.wildfly.plugins</groupId>
+    <artifactId>wildfly-maven-plugin</artifactId>
+    <version>1.1.0.Final</version>
+</plugin>
+
+ejecutar el proyecto y subirlo al servidor wildfly
+mvn wildfly:deploy
+
+solo compilar el pryecto si subir
+mvn package
+
+
+Importar PrimeFace en la Vistas
+xmlns:p="http://primefaces.org/ui"
+En el pom add la ependencia de PrimeFace
+una vez add hay que ir a
+
+Maven > UPdate Project
+RunAs > Maven Install
+
+Y listo queda instalada la dependencia
+
+
+<dependency>
+	<groupId>org.primefaces</groupId>
+	<artifactId>primefaces</artifactId>
+	<version>6.0</version>
+</dependency>
+
+Cambar JSF 2.1 por la JSF 2.2 (Por el momento buscar la 2.3)
+
+JSF Viejo
+<dependency>
+    <groupId>org.jboss.spec.javax.faces</groupId>
+    <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+    <scope>provided</scope>
+</dependency>
+
+JSF Nuevo
+<dependency>
+    <groupId>org.jboss.spec.javax.faces</groupId>
+    <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+    <version>2.2.13</version>
+</dependency>
+
+
+Configuracion de puerto para envio de correos ssl
+ARchivo standalone del servidor wildfly
+<outbound-socket-binding name="mail-smtp">
+    <remote-destination host="smtp.gmail.com" port="465"/>
+</outbound-socket-binding>
+
+
+Configuarion del pom para cargar y descargar archivos
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>3.0.1</version>
+    <scope>provided</scope>
+</dependency> 

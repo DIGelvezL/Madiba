@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h:head>
+	</h:head>
+
+	<body>
+		<ui:composition template="/resources/plantilla/plantilla.xhtml">
+			
+			<ui:define name="titulo">
+				 <title>Turno Reparto</title>	
+			</ui:define>		
+			
+			<ui:define name="content">
+			#{controllerLogin.redirectConalbos()}
+			<div class='content-wrapper' style="height:10px;overflow:auto">
+				<div class="content">
+					<div class="row">
+					<ui:repeat var="conciliador" value="#{controllerConciliador.listaConciliadorReparto()}">
+						<div class="col-md-4 col-sm-6 col-xs-12">
+							<!-- El valor del height: 283px; se debe de quitar esta provicionalmente -->
+							<div class="box box-primary" style="box-shadow: 2px 2px 5px #999;height: 283px;">
+								<div class="box-header with-border">
+									<i>
+										<h:outputLabel value="#{conciliador.apellidos}" />
+										<label> </label>
+										<h:outputLabel value=" #{conciliador.nombres} " />
+									</i>
+									<small class="label pull-right label-primary">#{conciliador.repartos.get(0).turno}</small>
+								</div>
+								<div class='box-body'>
+									<div class="left col-xs-8">
+										<h:outputLabel value="Especialidad:" />
+										<ul>
+											<ui:repeat var="especialidad" value="#{conciliador.conciliadorEspecialidads}">
+												<li> #{especialidad.especialidad.nombre} </li>
+											</ui:repeat>
+										</ul>
+										<h:outputLabel value="Experiencia:"/>
+										<h:outputText value=" #{conciliador.experiencia} años" />
+									</div>
+									<div class="right col-xs-4 text-center">
+										<h:graphicImage library="img" name="#{conciliador.foto}" alt="" class="img-circle img-responsive" />
+									</div>
+									<div class="left col-xs-12">
+										<!-- <i class="fa fa-phone" />  -->
+										<h:outputLabel value=" Telefono: " />
+										#{conciliador.telefono}
+										<br />
+										<!-- <i class="fa fa-envelope" />  -->
+										<h:outputLabel value=" Email: " />
+										#{conciliador.correo}
+										<br/>
+										<h:outputLabel value="#{conciliador.egresado}" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</ui:repeat>
+					</div>
+				</div>
+			</div>
+			</ui:define>
+		</ui:composition>
+	</body>
+</html>
