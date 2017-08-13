@@ -38,11 +38,25 @@
 							</li>
 						</ul>
 					</li>			    
-					<li>
-						<h:outputLink value="/Madiba/modulos/solicitudes/listasolicitudes.jsf" >
+					<li class="treeview">
+						<h:outputLink value="#" >
 					        <i class="fa fa-list-alt"></i>
 							<span>Solicitudes</span>
 					    </h:outputLink>
+					    <ul class="treeview-menu">
+							<li>
+								<h:outputLink value="/Madiba/modulos/solicitudes/listasolicitudes.jsf" >
+							        <i class="fa fa-edit"></i>
+									<span>Lista Solicitudes</span>
+							    </h:outputLink>
+							</li>
+							<li>
+								<h:outputLink value="/Madiba/modulos/solicitudes/solicitarConciliacion.jsf" >
+							        <i class="fa fa-edit"></i>
+									<span>Solicitar Conciliación</span>
+							    </h:outputLink>
+							</li>
+						</ul>
 					</li>
 				</h:panelGroup>
 				<li>
