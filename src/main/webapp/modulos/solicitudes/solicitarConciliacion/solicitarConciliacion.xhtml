@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head> 
+
+<body>
+	<ui:composition template="/resources/plantilla/plantilla.xhtml">
+	
+		<ui:define name="titulo">
+			 <title>Solicitar Conciliación</title>	
+		</ui:define>
+			
+		<ui:define name="content">
+			#{controllerLogin.redirect()}
+		
+			<h:form id="formulario" enctype="multipart/form-data">
+			
+				<div class='content-wrapper' style="height:10px;overflow:auto">
+					<div class="content">
+						<div class="box box-primary">
+							<div class="box-header with-border" style="padding-bottom:0px">
+								<i>
+									<h:outputLabel value="Solicitar Conciliación" style="font-size:14pt; margin-left:1%"/>
+								</i>
+							</div>
+							<div class='box-body'>
+								<ui:include src="convocante/convocanteForm.xhtml">
+               						<ui:param name="convocanteForm" value="Convocante" />
+               					</ui:include>
+							</div>
+							
+							<div class='box-body'>
+								<ui:include src="convocado/convocadoForm.xhtml">
+               						<ui:param name="convocadoForm" value="Convocado" />
+               					</ui:include>
+							</div>
+							
+							<div class='box-body'>
+								<div class="box box-primary sombra">
+									<h:panelGroup id="asuntoConciliar" layout="block" styleClass="box-body table-responsive ">
+										<div class="box-header with-border" style="padding-bottom:0px">
+			                 				<i>
+					              				<h:outputLabel value="Asunto a conciliar" style="font-size:14pt; margin-left:1%"/>
+			                   				</i>
+										</div>
+										<div class="form-group">
+											<h:inputTextarea id="asunto" class="form-control" value="#{solicitarConciliacionController.solicitudVO.asunto}" styleClass="form-control" style="resize:none;background-color:#00a65a1a;" rows="6"/>
+										</div>
+									</h:panelGroup>
+								</div>
+							</div>
+							
+							<div class='box-body'>
+								<div class="box box-primary sombra">
+									<h:panelGroup id="idCuantia" layout="block" styleClass="box-body table-responsive ">
+										<div class="box-header with-border" style="padding-bottom:0px">
+			                 				<i>
+					              				<h:outputLabel value="Cuantía" style="font-size:14pt; margin-left:1%"/>
+			                   				</i>
+										</div>
+										<div class="col-lg-3">
+											<h:inputText id="cuantia" value="#{solicitarConciliacionController.solicitudVO.cuantia}" styleClass="form-control espacio5 inputPretenciones" />
+										</div>
+									</h:panelGroup>
+								</div>
+							</div>
+							
+							<div class='box-body'>
+								<div class="box box-primary sombra">
+									<h:panelGroup id="idDesignacion" layout="block" styleClass="box-body table-responsive ">
+										<div class="box-header with-border" style="padding-bottom:0px">
+			                 				<i>
+					              				<h:outputLabel value="Tipo de designación" style="font-size:14pt; margin-left:1%"/>
+			                   				</i>
+										</div>
+										<h:outputLabel value="Designación por solicitud: " styleClass="control-label"/>
+								        <p:inputSwitch value="#{solicitarConciliacionController.onOff}">
+								            <f:ajax listener="#{solicitarConciliacionController.selectTipoDesignacion}" render="formulario" />
+								        </p:inputSwitch>
+								        
+								        <p:dataTable id="conciliadorDT" disabledSelection="#{solicitarConciliacionController.tipoDesignacion}" var="conciliador" 
+								        	value="#{solicitarConciliacionController.conciliadorVOList}" selectionMode="single"
+								        	selection="#{solicitarConciliacionController.conciliadorVO}" rowKey="#{conciliador.idConciliador}" 
+								        	rows="2"
+						                    paginator="true"
+						                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						                    rowsPerPageTemplate="5,10,15">
+									        <f:facet name="header">
+									            Conciliadores
+									        </f:facet>
+									        <p:column headerText="Foto">
+									            <img src="/Madiba_Solicitud/resources/img/#{conciliador.foto}"
+														alt="" class="img-circle img-responsive" width="150" height="120" />
+									        </p:column>
+									        <p:column headerText="Nombre">
+									            <h:outputText value="#{conciliador.nombres} #{conciliador.apellidos}" />
+									        </p:column>
+									        <p:column headerText="Identificación">
+									            <h:outputText value="#{conciliador.identificacion}" />
+									        </p:column>
+									        <p:column headerText="Correo">
+									            <h:outputText value="#{conciliador.correo}" />
+									        </p:column>
+									        <p:column headerText="Egresado">
+									            <h:outputText value="#{conciliador.egresado}" />
+									        </p:column>
+									        <p:column headerText="Años de experiencia">
+									            <h:outputText value="#{conciliador.experiencia}" />
+									        </p:column>
+									        <p:column headerText="Telefono">
+									            <h:outputText value="#{conciliador.telefono}" />
+									        </p:column>
+									        <p:column headerText="Especialidades">
+									            <h:outputText value="#{conciliador.nombreEspecialidad}" />
+									        </p:column>
+								            
+									    </p:dataTable>
+									</h:panelGroup>
+								</div>
+							</div>
+							
+							<div class='box-body'>
+								<div class="box box-primary sombra">
+									<h:panelGroup id="idAnexarPruebas" layout="block" styleClass="box-body table-responsive ">
+										<div class="box-header with-border" style="padding-bottom:0px">
+			                 				<i>
+					              				<h:outputLabel value="Anexar pruebas" style="font-size:14pt; margin-left:1%"/>
+			                   				</i>
+										</div>
+										<input type="file" id="exampleInputFile"/>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+					
+			<div class='main-footer' style="height: 43.11111px;">
+				<div class="text-center">
+					<h:form id="formBotones">
+						<h:commandButton value="Ficha" action="listaaudienciadetalleficha" styleClass="btn btn-sm btn-primary btn-menu"/>
+						<h:commandButton value="Desarrollo Audiencia" actionListener="#{controllerSession.setIdAudienciaDesarroloAudiencia(controllerAudienciaDetalle.idAudienciaSelect)}" action="verdesarrolloaudiencia"  disabled="#{controllerAudienciaDetalle.bloquearBotonDesarrolloAudiencia()}" styleClass="btn btn-sm btn-primary btn-menu" />
+					</h:form>				
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</body>
+ 
+</html>

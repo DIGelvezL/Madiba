@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head> 
+
+<body>
+	<ui:composition>
+	
+		<div class="box box-primary sombra">
+			<h:panelGroup id="tablaAudienciaDetalle" layout="block" styleClass="box-body table-responsive ">
+				<div class="box-header with-border" style="padding-bottom:0px">
+	             				<i>
+	            				<h:outputLabel value="Convocantes" style="font-size:14pt; margin-left:1%"/>
+	               				</i>
+				</div>
+				<table id="example2" class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>Nombres</th>
+							<th>Apellidos</th>
+							<th>Tipo Identificación</th>
+							<th>Identificación</th>
+							<th>Dirección</th>
+							<th>Telefono</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+	
+							<td>
+								<h:inputText type="text" class="form-control" id="nombresConvocante" placeholder="Nombres" 
+									value="#{solicitarConciliacionController.convocanteVO.nombres}" />
+							</td>
+							<td>
+								<h:inputText type="text" class="form-control" id="apellidosConvocante" placeholder="Apellidos" 
+									value="#{solicitarConciliacionController.convocanteVO.apellidos}" />
+							</td>
+							<td>
+				                <h:selectOneMenu class="form-control" id="tipoIdentificacionConvocante" value="#{solicitarConciliacionController.convocanteVO.tipoId}" >
+						            <f:selectItem itemLabel="Select One" itemValue="" />
+						            <f:selectItem itemLabel="Cedula" itemValue="Cedula" />
+						            <f:selectItem itemLabel="Tarjeta Identidad" itemValue="Tarjeta Identidad" />
+						            <f:selectItem itemLabel="Cedula de extranjeria" itemValue="Cedula de extranjeria" />
+						            <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte" />
+						        </h:selectOneMenu>
+							</td>
+							<td>
+								<h:inputText type="text" class="form-control" id="identifiacionConvocante" placeholder="Identificacion" 
+									value="#{solicitarConciliacionController.convocanteVO.identificacion}" />
+							</td>
+							<td>
+								<h:inputText type="text" class="form-control" id="direccionConvocante" placeholder="Direccion" 
+									value="#{solicitarConciliacionController.convocanteVO.direccion}" />
+							</td>
+							<td>
+								<h:inputText type="text" class="form-control" id="telefonoConvocante" placeholder="Telefono" 
+									value="#{solicitarConciliacionController.convocanteVO.telefono}" />
+							</td>
+							<td>
+								<h:inputText type="text" class="form-control" id="emailConvocante" placeholder="Email" 
+									value="#{solicitarConciliacionController.convocanteVO.correo}" />
+							</td>
+	
+						</tr>
+					</tbody>
+				</table>
+				
+				<div style="margin-top: 25px">
+					<p:commandButton value="Agregar" id="AgregarConvocante" actionListener="#{solicitarConciliacionController.agregarConvocante}" 
+						onclick="limpiarFormConvocante()" update="convocantes" icon="ui-icon-disk" />
+				</div>
+				
+				<div style="margin-top: 25px">										
+					<p:dataTable id="convocantes" value="#{solicitarConciliacionController.convocanteVOList}" var="convocante" editable="true" 
+						rowKey="#{convocante.identificacion}" selection="#{solicitarConciliacionController.convocanteAgragadoVOList}" >
+						<f:facet name="header">
+							Convocantes
+						</f:facet>
+						<p:column selectionMode="multiple" style="width:16px;text-align:left"/>
+						<p:column headerText="Nombres">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.nombres}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{convocante.nombres}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Apellidos">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.apellidos}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{convocante.apellidos}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Tipo Identificación">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.tipoId}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu class="form-control" id="tipoIdentificacionConvocanteEdit" value="#{convocante.tipoId}" >
+							            <f:selectItem itemLabel="Select One" itemValue="" />
+							            <f:selectItem itemLabel="Cedula" itemValue="Cedula" />
+							            <f:selectItem itemLabel="Tarjeta Identidad" itemValue="Tarjeta Identidad" />
+							            <f:selectItem itemLabel="Cedula de extranjeria" itemValue="Cedula de extranjeria" />
+							            <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte" />
+							        </h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Identificación">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.identificacion}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{convocante.identificacion}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Dirección">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.direccion}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{convocante.direccion}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Telefono">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.telefono}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{convocante.telefono}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Email">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{convocante.correo}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{convocante.correo}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						
+						<f:facet name="footer">
+							<p:commandButton value="Delete" update="convocantes" icon="ui-icon-close" actionListener="#{solicitarConciliacionController.eliminarConvocante}" />
+						</f:facet>
+						
+						<p:column headerText="Opciones" style="width:50px">
+							<p:rowEditor />
+						</p:column>
+	
+					</p:dataTable>
+				
+					<p:contextMenu for="convocantes">
+				        <p:menuitem value="Delete" update="convocantes" icon="ui-icon-close" actionListener="#{solicitarConciliacionController.eliminarConvocado}"/>
+				    </p:contextMenu>
+				</div>
+			</h:panelGroup>
+		</div>
+		
+	</ui:composition>
+</body>
+ 
+</html>
