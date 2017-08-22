@@ -163,7 +163,7 @@ public class SolicitarConciliacionController {
 		boolean failure = false;
 		for (ParteVO item : convocanteVOList) {
 			if(item.getIdentificacion().equals(convocanteVO.getIdentificacion())){
-				messageWarning("ya est� agregado el convocante!!");
+				messageError("ya está agregado el convocante!!");
 				failure = true;
 				break;
 			}
@@ -182,7 +182,7 @@ public class SolicitarConciliacionController {
 				coVO.setTipoParte("Convocante");
 				convocanteVOList.add(coVO);
 			}else
-				messageWarning("Debe completar todos los campos del convocante!!");
+				messageError("Debe completar todos los campos del convocante!!");
 		}
 		
 		agregarConvocante = false;
@@ -198,7 +198,7 @@ public class SolicitarConciliacionController {
 		boolean failure = false;
 		for (ParteVO item : convocadoVOList) {
 			if(item.getIdentificacion().equals(convocadoAgragadoVO.getIdentificacion())){
-				messageWarning("ya est� agregado el convocado!!");
+				messageError("ya está agregado el convocado!!");
 				failure = true;
 				break;
 			}
@@ -217,7 +217,7 @@ public class SolicitarConciliacionController {
 				convocadoVO.setTipoParte("Convocado");
 				convocadoVOList.add(convocadoVO);
 			}else
-				messageWarning("Debe completar todos los campos del convocado!!");
+				messageError("Debe completar todos los campos del convocado!!");
 		}
 		
 		agregarConvocado = false;
