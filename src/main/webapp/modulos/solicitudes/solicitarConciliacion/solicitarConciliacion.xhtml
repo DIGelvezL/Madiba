@@ -97,18 +97,18 @@
 							</div>
 						</div>
 					</div>
-				</h:form>
-						
-				<div class='main-footer' style="height: 43.11111px;">
-					<div class="text-center">
-						<h:form id="formBotones">
-							<h:commandButton value="Guardar" ajax="false" update="panelAgregarConvocado" action="solicitarConciliacion?faces-redirect=true"
-								actionListener="#{solicitarConciliacionController.guardar}" styleClass="btn btn-sm btn-primary btn-menu"/>
-							<h:commandButton value="Solicitar" ajax="false" update="formularioSolicitarConciliacion"
-								actionListener="#{solicitarConciliacionController.solicitar}" styleClass="btn btn-sm btn-primary btn-menu"/>
-						</h:form>				
+				
+					<div class='main-footer' style="height: 43.11111px;">
+						<div class="text-center">
+							<h:form id="formBotones">
+								<h:commandButton value="Guardar" ajax="false" update="formularioSolicitarConciliacion" action="solicitarConciliacion?faces-redirect=true"
+									actionListener="#{solicitarConciliacionController.guardar}" styleClass="btn btn-sm btn-primary btn-menu"/>
+								<h:commandButton value="Solicitar" ajax="false" update="formularioSolicitarConciliacion"
+									actionListener="#{solicitarConciliacionController.solicitar}" styleClass="btn btn-sm btn-primary btn-menu"/>
+							</h:form>				
+						</div>
 					</div>
-				</div>
+				</h:form>
 
 		</ui:define>
 	</ui:composition>
