@@ -12,15 +12,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.mail.FolderNotFoundException;
 
 import service.ConciliadorService;
+import service.DesignacionService;
 import service.ParteService;
 import service.SolicitudService;
 import vo.ConciliadorVO;
+import vo.DesignacionVO;
 import vo.ParteVO;
 import vo.SolicitudVO;
-import org.primefaces.event.RowEditEvent;
 
 
 
@@ -43,6 +43,9 @@ public class SolicitarConciliacionController {
 	@ManagedProperty(value = "#{conciliadorVO}")
 	private ConciliadorVO conciliadorVO;
 	
+	@ManagedProperty(value = "#{designacionVO}")
+	private DesignacionVO designacionVO;
+	
 	private boolean tipoDesignacion;
 	private boolean onOff;
 	private boolean agregarConvocante;
@@ -63,6 +66,9 @@ public class SolicitarConciliacionController {
 	
 	@EJB
 	private ParteService parteService;
+	
+	@EJB
+	private DesignacionService designacionService;
 
 	@PostConstruct
 	public void inicializar() {
@@ -74,6 +80,7 @@ public class SolicitarConciliacionController {
 			convocadoAgragadoVO = new ParteVO();
 			conciliadorVO = new ConciliadorVO();
 			solicitudVO = new SolicitudVO();
+			designacionVO = new DesignacionVO();
 			
 			conciliadorVOList = new ArrayList<>();
 			conciliadorVOList =  conciliadorService.findAll();
@@ -96,7 +103,7 @@ public class SolicitarConciliacionController {
 	public void guardar() {
         try {
         	
-        	solicitudVO.setEstado("GRABADA");
+        	solicitudVO.setEstado("GUARDADA");
         	Calendar calendar = Calendar.getInstance();
         	Date now = calendar.getTime();
         	solicitudVO.setFecha(now);
@@ -124,6 +131,10 @@ public class SolicitarConciliacionController {
         	guardarPartes(convocanteVOList);
         	guardarPartes(convocadoVOList);
         	
+        	if(onOff){
+        		guardarDesignacion();
+        	}
+        	
     		messageSuccess("Se guardo la solicitud");
 
       	
@@ -149,6 +160,26 @@ public class SolicitarConciliacionController {
     		}else{
     			parteService.update(item);
     		}
+		}
+	}
+	
+	private void guardarDesignacion(){
+		designacionVO.setTipoDesignacion("Solicitud");
+		designacionVO.setConciliadorVO(conciliadorVO);
+		designacionVO.setSolicitudVO(solicitudVO);
+		
+		if(designacionVO.getIdDesignacion() == null){
+			long idDesignacion;
+			if(designacionService.findMaxId() != null)
+				idDesignacion = designacionService.findMaxId();
+			else
+				idDesignacion = 0;
+			
+			designacionVO.setIdDesignacion(idDesignacion + 1);
+			
+			designacionService.insert(designacionVO);
+		}else{
+			designacionService.update(designacionVO);
 		}
 	}
 	
@@ -372,6 +403,14 @@ public class SolicitarConciliacionController {
 
 	public void setAgregarConvocado(boolean agregarConvocado) {
 		this.agregarConvocado = agregarConvocado;
+	}
+
+	public DesignacionVO getDesignacionVO() {
+		return designacionVO;
+	}
+
+	public void setDesignacionVO(DesignacionVO designacionVO) {
+		this.designacionVO = designacionVO;
 	}
 	
 }

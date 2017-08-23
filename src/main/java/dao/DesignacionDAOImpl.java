@@ -37,5 +37,10 @@ public class DesignacionDAOImpl {
         q.setParameter("idDesignacion", id);
 		return (Designacion) q.getSingleResult();
 	}
+	
+	public Long findMaxId() {
+		Query q = em.createQuery("SELECT MAX(d.idDesignacion) FROM Designacion d");
+		return (Long) q.getSingleResult();
+	}
 
 }

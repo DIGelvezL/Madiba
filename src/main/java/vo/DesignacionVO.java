@@ -14,6 +14,8 @@ public class DesignacionVO implements Serializable {
 	private Boolean aceptada;
 	private String observacion;
 	private String tipoDesignacion;
+	private ConciliadorVO conciliadorVO;
+	private SolicitudVO solicitudVO;
 	
 	public Long getIdDesignacion() {
 		return idDesignacion;
@@ -39,5 +41,16 @@ public class DesignacionVO implements Serializable {
 	public void setTipoDesignacion(String tipoDesignacion) {
 		this.tipoDesignacion = tipoDesignacion;
 	}
-	
+	public ConciliadorVO getConciliadorVO() {
+		return conciliadorVO;
+	}
+	public void setConciliadorVO(ConciliadorVO conciliadorVO) {
+		this.conciliadorVO = conciliadorVO;
+	}
+	public SolicitudVO getSolicitudVO() {
+		return solicitudVO;
+	}
+	public void setSolicitudVO(SolicitudVO solicitudVO) {
+		this.solicitudVO = solicitudVO;
+	}
 }

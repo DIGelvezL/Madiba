@@ -57,18 +57,18 @@ public class ParteServiceImpl implements ParteService {
 
 	@Override
 	public void delete(ParteVO parteVO) {
-		Parte Parte = modelMapper.map(parteVO, Parte.class);
+		Parte parte = modelMapper.map(parteVO, Parte.class);
 		
-		if(Parte != null){
-			parteDAO.delete(Parte);
+		if(parte != null){
+			parteDAO.delete(parte);
 		}
 	}
 
 	@Override
 	public ParteVO findById(Integer id) {
-		Parte Parte = parteDAO.findById(id);
+		Parte parte = parteDAO.findById(id);
 		
-		return modelMapper.map(Parte, ParteVO.class);
+		return modelMapper.map(parte, ParteVO.class);
 	}
 
 	@Override
