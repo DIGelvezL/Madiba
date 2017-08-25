@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.modelmapper.ModelMapper;
 
@@ -11,6 +12,7 @@ import dao.DesignacionDAOImpl;
 import entidades.Designacion;
 import vo.DesignacionVO;
 
+@Stateless
 public class DesignacionServiceImpl implements DesignacionService {
 
 	@EJB
