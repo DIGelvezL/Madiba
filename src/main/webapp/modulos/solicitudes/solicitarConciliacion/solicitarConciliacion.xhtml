@@ -21,7 +21,7 @@
 			#{controllerLogin.redirect()}
 			
 
-				<h:form id="formularioSolicitarConciliacion" enctype="multipart/form-data">
+				<h:form id="formularioSolicitarConciliacion" prependId="false" enctype="multipart/form-data">
 				
 					<div class='content-wrapper' style="height:10px;overflow:auto">
 						<div class="content">
@@ -83,16 +83,9 @@
 								</div>
 								
 								<div class='box-body'>
-									<div class="box box-primary sombra">
-										<h:panelGroup id="idAnexarPruebas" layout="block" styleClass="box-body table-responsive ">
-											<div class="box-header with-border" style="padding-bottom:0px">
-				                 				<i>
-						              				<h:outputLabel value="Anexar pruebas" style="font-size:14pt; margin-left:1%"/>
-				                   				</i>
-											</div>
-											<input type="file" id="exampleInputFile"/>
-										</h:panelGroup>
-									</div>
+									<ui:include src="anexarPruebas/anexarPruebas.xhtml">
+	               						<ui:param name="anexarPruebas" value="anexarPruebas" />
+	               					</ui:include>
 								</div>
 							</div>
 						</div>

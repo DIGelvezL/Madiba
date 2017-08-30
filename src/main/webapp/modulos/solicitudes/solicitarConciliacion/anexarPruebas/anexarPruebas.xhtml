@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head> 
+
+<body>
+	<ui:composition>
+	
+		<div class="box box-primary sombra">
+			<h:panelGroup id="idAnexarPruebas" layout="block" styleClass="box-body table-responsive ">
+				<div class="box-header with-border" style="padding-bottom:0px">
+     				<i>
+    					<h:outputLabel value="Anexar Pruebas" style="font-size:14pt; margin-left:1%"/>
+       				</i>
+				</div>
+				<p:fileUpload fileUploadListener="#{solicitarConciliacionController.upLoad}" mode="advanced" dragDropSupport="false"
+			                  multiple="true" sizeLimit="10000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+			</h:panelGroup>
+		</div>
+		
+	</ui:composition>
+</body>
+ 
+</html>

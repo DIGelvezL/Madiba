@@ -13,6 +13,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
+import service.AnexoService;
 import service.ConciliadorService;
 import service.DesignacionService;
 import service.ParteService;
@@ -58,6 +62,8 @@ public class SolicitarConciliacionController {
 	private List<ParteVO> convocadoAgragadoVOList;
 	private Long id;
 	
+	private UploadedFile file;
+	
 	@EJB
 	private ConciliadorService conciliadorService;
 	
@@ -69,6 +75,9 @@ public class SolicitarConciliacionController {
 	
 	@EJB
 	private DesignacionService designacionService;
+	
+	@EJB
+	private AnexoService anexoService;
 
 	@PostConstruct
 	public void inicializar() {
@@ -254,6 +263,11 @@ public class SolicitarConciliacionController {
 		agregarConvocado = false;
 	}
 	
+	public void upLoad(FileUploadEvent event){
+		setFile(event.getFile());
+//		anexoService.guardarArchivosMultiple(getFile(), event.getFile().getFileName());
+	}
+	
 	public void eliminarConvocado() {
 		for(ParteVO item: convocadoAgragadoVOList){
 			convocadoVOList.remove(item);
@@ -411,6 +425,14 @@ public class SolicitarConciliacionController {
 
 	public void setDesignacionVO(DesignacionVO designacionVO) {
 		this.designacionVO = designacionVO;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
 	}
 	
 }
