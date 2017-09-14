@@ -21,6 +21,7 @@ import service.ConciliadorService;
 import service.DesignacionService;
 import service.ParteService;
 import service.SolicitudService;
+import vo.AnexoVO;
 import vo.ConciliadorVO;
 import vo.DesignacionVO;
 import vo.ParteVO;
@@ -50,6 +51,9 @@ public class SolicitarConciliacionController {
 	@ManagedProperty(value = "#{designacionVO}")
 	private DesignacionVO designacionVO;
 	
+	@ManagedProperty(value = "#{anexoVO}")
+	private AnexoVO anexoVO;
+	
 	private boolean tipoDesignacion;
 	private boolean onOff;
 	private boolean agregarConvocante;
@@ -63,6 +67,7 @@ public class SolicitarConciliacionController {
 	private Long id;
 	
 	private UploadedFile file;
+	private String archivo;
 	
 	@EJB
 	private ConciliadorService conciliadorService;
@@ -139,6 +144,7 @@ public class SolicitarConciliacionController {
         	
         	guardarPartes(convocanteVOList);
         	guardarPartes(convocadoVOList);
+        	guardarAnexos();
         	
         	if(onOff){
         		guardarDesignacion();
@@ -189,6 +195,28 @@ public class SolicitarConciliacionController {
 			designacionService.insert(designacionVO);
 		}else{
 			designacionService.update(designacionVO);
+		}
+	}
+	
+	private void guardarAnexos(){
+		anexoVO.setSolicitudVO(solicitudVO);
+		
+		anexoVO.setContenido(anexoService.guardarAnexos(getFile(), getArchivo(), solicitudVO.getIdSolicitud().toString()));
+		
+		if(anexoVO.getIdAnexo() == null){
+			long idAnexo;
+			if(designacionService.findMaxId() != null)
+				idAnexo = designacionService.findMaxId();
+			else
+				idAnexo = 0;
+			
+			anexoVO.setIdAnexo(idAnexo + 1);
+			int num = (int) (idAnexo + 1);
+			anexoVO.setAnexoNum(num);
+			
+			anexoService.insert(anexoVO);
+		}else{
+			anexoService.update(anexoVO);
 		}
 	}
 	
@@ -265,7 +293,8 @@ public class SolicitarConciliacionController {
 	
 	public void upLoad(FileUploadEvent event){
 		setFile(event.getFile());
-//		anexoService.guardarArchivosMultiple(getFile(), event.getFile().getFileName());
+    	setArchivo(event.getFile().getFileName());
+    	anexoService.uploadAnexosTemp(getFile(), getArchivo());
 	}
 	
 	public void eliminarConvocado() {
@@ -433,6 +462,22 @@ public class SolicitarConciliacionController {
 
 	public void setFile(UploadedFile file) {
 		this.file = file;
+	}
+
+	public String getArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(String archivo) {
+		this.archivo = archivo;
+	}
+
+	public AnexoVO getAnexoVO() {
+		return anexoVO;
+	}
+
+	public void setAnexoVO(AnexoVO anexoVO) {
+		this.anexoVO = anexoVO;
 	}
 	
 }

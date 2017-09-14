@@ -37,5 +37,10 @@ public class AnexoDAOImpl {
         q.setParameter("idAnexo", id);
 		return (Anexo) q.getSingleResult();
 	}
+	
+	public Long findMaxId() {
+		Query q = em.createQuery("SELECT MAX(a.idAnexo) FROM Anexo a");
+		return (Long) q.getSingleResult();
+	}
 
 }

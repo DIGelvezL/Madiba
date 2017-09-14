@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import org.primefaces.model.UploadedFile;
+
 import vo.AnexoVO;
 
 
@@ -13,12 +15,18 @@ public interface AnexoService {
 	
 	public List<AnexoVO> findAll();
 
-	public String insert(AnexoVO anexoVO);
+	public void insert(AnexoVO anexoVO);
 
 	public void update(AnexoVO anexoVO);
 
 	public void delete(AnexoVO anexoVO);
 	
-	public AnexoVO getById(AnexoVO anexoVO);
+	public AnexoVO findById(Integer id);
+	
+	public Long findMaxId();
+	
+	public String guardarAnexos(UploadedFile file, String nombreArchivo, String idSolicitud);
+	
+	public String uploadAnexosTemp(UploadedFile file, String nombreArchivo);
 
 }

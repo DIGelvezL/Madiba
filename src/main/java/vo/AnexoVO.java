@@ -14,6 +14,7 @@ public class AnexoVO implements Serializable {
 	private Long idAnexo;
 	private Integer anexoNum;
 	private String contenido;
+	private SolicitudVO solicitudVO;
 	
 	public Long getIdAnexo() {
 		return idAnexo;
@@ -33,4 +34,11 @@ public class AnexoVO implements Serializable {
 	public void setContenido(String contenido) {
 		this.contenido = contenido;
 	}
+	public SolicitudVO getSolicitudVO() {
+		return solicitudVO;
+	}
+	public void setSolicitudVO(SolicitudVO solicitudVO) {
+		this.solicitudVO = solicitudVO;
+	}
+	
 }
