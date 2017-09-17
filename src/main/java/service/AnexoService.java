@@ -26,7 +26,5 @@ public interface AnexoService {
 	public Long findMaxId();
 	
 	public String guardarAnexos(UploadedFile file, String nombreArchivo, String idSolicitud);
-	
-	public String uploadAnexosTemp(UploadedFile file, String nombreArchivo);
 
 }

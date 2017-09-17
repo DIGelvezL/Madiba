@@ -2,12 +2,8 @@ package service;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,9 +16,7 @@ import org.primefaces.model.UploadedFile;
 
 import dao.AnexoDAOImpl;
 import entidades.Anexo;
-import entidades.Designacion;
 import vo.AnexoVO;
-import vo.DesignacionVO;
 
 
 @Stateless
@@ -126,37 +120,14 @@ public class AnexoServiceImpl implements AnexoService {
 			in.close();
 			out.flush();
 			out.close();
-			return ubicacionArchivo = archivoLocal + File.separatorChar + nombreArchivo;
+			
+			ubicacionArchivo = archivoLocal + File.separatorChar + nombreArchivo;
+			
+			return ubicacionArchivo;
 
 		}catch(Throwable t){
 			return ubicacionArchivo;
 		}	
-	}
-	
-	@Override
-	public String uploadAnexosTemp(UploadedFile file, String nombreArchivo){
-		String ubicacionArchivo = null;
-		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		
-		String path = servletContext.getRealPath("") + File.separatorChar + "resources" + File.separatorChar + "anexos"
-				+ File.separatorChar + nombreArchivo;
-		
-		try {
-			BufferedInputStream in = (BufferedInputStream) file.getInputstream(); 
-			FileOutputStream out = new FileOutputStream(path);
-			byte[] buffer = new byte [(int) file.getSize()];
-			int c = 0;
-			while((c = in.read(buffer)) != -1 ){
-				out.write(buffer, 0, c);
-			}
-			in.close();
-			out.flush();
-			out.close();
-			ubicacionArchivo = "./resources/anexos/" + nombreArchivo;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ubicacionArchivo;
 	}
 
 }

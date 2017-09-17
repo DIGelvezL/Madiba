@@ -68,6 +68,7 @@ public class SolicitarConciliacionController {
 	
 	private UploadedFile file;
 	private String archivo;
+	private List<String> anexosLista;
 	
 	@EJB
 	private ConciliadorService conciliadorService;
@@ -103,6 +104,7 @@ public class SolicitarConciliacionController {
 			convocanteAgragadoVOList = new ArrayList<>();
 			convocadoVOList = new ArrayList<>();
 			convocadoAgragadoVOList = new ArrayList<>();
+			anexosLista = new ArrayList<>();
 			
 			id = null;
 			agregarConvocante = true;
@@ -129,13 +131,58 @@ public class SolicitarConciliacionController {
         	}
     		
         	if(id == null){
-        		long idconcovante;
+        		long idSolicitud;
         		if(solicitudService.findMaxId() != null)
-        			idconcovante = solicitudService.findMaxId();
+        			idSolicitud = solicitudService.findMaxId();
     			else
-    				idconcovante = 0;
+    				idSolicitud = 0;
         		
-        		solicitudVO.setIdSolicitud(idconcovante + 1);
+        		solicitudVO.setIdSolicitud(idSolicitud + 1);
+        		id = solicitudVO.getIdSolicitud();
+        		solicitudService.insert(solicitudVO);
+        	}else{
+        		solicitudService.update(solicitudVO);
+        	}
+        	
+        	guardarPartes(convocanteVOList);
+        	guardarPartes(convocadoVOList);
+        	guardarAnexos();
+        	
+        	if(onOff){
+        		guardarDesignacion();
+        	}
+        	
+    		messageSuccess("Se guardo la solicitud");
+
+      	
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			messageError("Error en la transacci�n!!");
+        }
+    }
+	
+	public void solicitar() {
+        try {
+        	
+        	solicitudVO.setEstado("GRABADA");
+        	Calendar calendar = Calendar.getInstance();
+        	Date now = calendar.getTime();
+        	solicitudVO.setFecha(now);
+        	solicitudVO.setConciliable(false);
+        	
+        	if(onOff && conciliadorVO == null){
+        		messageError("Debe seleccionar un conciliador");
+        		return;
+        	}
+    		
+        	if(id == null){
+        		long idSolicitud;
+        		if(solicitudService.findMaxId() != null)
+        			idSolicitud = solicitudService.findMaxId();
+    			else
+    				idSolicitud = 0;
+        		
+        		solicitudVO.setIdSolicitud(idSolicitud + 1);
         		id = solicitudVO.getIdSolicitud();
         		solicitudService.insert(solicitudVO);
         	}else{
@@ -199,24 +246,32 @@ public class SolicitarConciliacionController {
 	}
 	
 	private void guardarAnexos(){
-		anexoVO.setSolicitudVO(solicitudVO);
+		int cont = 0;
 		
-		anexoVO.setContenido(anexoService.guardarAnexos(getFile(), getArchivo(), solicitudVO.getIdSolicitud().toString()));
-		
-		if(anexoVO.getIdAnexo() == null){
-			long idAnexo;
-			if(designacionService.findMaxId() != null)
-				idAnexo = designacionService.findMaxId();
-			else
-				idAnexo = 0;
+		for (String ubicacion : anexosLista) {
+			cont++;
 			
-			anexoVO.setIdAnexo(idAnexo + 1);
-			int num = (int) (idAnexo + 1);
-			anexoVO.setAnexoNum(num);
+			anexoVO = new AnexoVO();
 			
-			anexoService.insert(anexoVO);
-		}else{
-			anexoService.update(anexoVO);
+			anexoVO.setSolicitudVO(solicitudVO);
+			
+			anexoVO.setContenido(ubicacion);
+			
+			if(anexoVO.getIdAnexo() == null){
+				long idAnexo;
+				if(anexoService.findMaxId() != null)
+					idAnexo = anexoService.findMaxId();
+				else
+					idAnexo = 0;
+				
+				anexoVO.setIdAnexo(idAnexo + 1);
+				int num = (int) (idAnexo + 1);
+				anexoVO.setAnexoNum(cont);
+				
+				anexoService.insert(anexoVO);
+			}else{
+				anexoService.update(anexoVO);
+			}
 		}
 	}
 	
@@ -292,9 +347,19 @@ public class SolicitarConciliacionController {
 	}
 	
 	public void upLoad(FileUploadEvent event){
+
 		setFile(event.getFile());
     	setArchivo(event.getFile().getFileName());
-    	anexoService.uploadAnexosTemp(getFile(), getArchivo());
+
+		long idSolicitud;
+		if(solicitudService.findMaxId() != null)
+			idSolicitud = solicitudService.findMaxId();
+		else
+			idSolicitud = 0;
+		
+		solicitudVO.setIdSolicitud(idSolicitud + 1);
+
+		anexosLista.add(anexoService.guardarAnexos(getFile(), getArchivo(), solicitudVO.getIdSolicitud().toString()));
 	}
 	
 	public void eliminarConvocado() {
@@ -478,6 +543,14 @@ public class SolicitarConciliacionController {
 
 	public void setAnexoVO(AnexoVO anexoVO) {
 		this.anexoVO = anexoVO;
+	}
+
+	public List<String> getAnexosLista() {
+		return anexosLista;
+	}
+
+	public void setAnexosLista(List<String> anexosLista) {
+		this.anexosLista = anexosLista;
 	}
 	
 }
