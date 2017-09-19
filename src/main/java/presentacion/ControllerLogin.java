@@ -63,8 +63,12 @@ public class ControllerLogin {
 		if(this.login.isValidado()){
 			if (this.login.getRole().equalsIgnoreCase("conalbos")) {
 				return "/modulos/solicitudes/listasolicitudes?faces-redirect=true";
-			}else{
+			}else if(this.login.getRole().equalsIgnoreCase("conciliador")){
 				return "/modulos/audiencia/listaaudiencias?faces-redirect=true";
+			}else if(this.login.getRole().equalsIgnoreCase("user")){
+				return "/modulos/solicitudes/solicitarConciliacion/solicitarConciliacion?faces-redirect=true";
+			}else{
+				return "login";
 			}
 		}else{
 			return "login"; 
@@ -104,6 +108,20 @@ public class ControllerLogin {
 		try {
 			if(this.login.isValidado()){
 				if(!this.login.getRole().equalsIgnoreCase("Conalbos")){
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/Madiba/accesodenegado.jsf");
+				}
+			}else{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/Madiba/login.jsf");
+			}
+		} catch (IOException e) {
+			System.out.print("redirectConalbos");
+		}
+	}
+	
+	public void redirectConalbosAndUser(){
+		try {
+			if(this.login.isValidado()){
+				if(!this.login.getRole().equalsIgnoreCase("Conalbos") && !this.login.getRole().equalsIgnoreCase("User")){
 					FacesContext.getCurrentInstance().getExternalContext().redirect("/Madiba/accesodenegado.jsf");
 				}
 			}else{

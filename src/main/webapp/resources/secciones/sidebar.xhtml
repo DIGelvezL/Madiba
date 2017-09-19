@@ -10,14 +10,14 @@
 	<h:form id="formBusqueda">
 		<div class="sidebar">
 			<ul class="sidebar-menu">
-				<h:panelGroup layout="block" rendered="#{modelLogin.role=='conalbos'}"> 
-					<li class="header">MENU</li>
-					<!-- <li class="active">
-						<h:outputLink value="/Madiba/index.jsf" >
-					        <i class="fa fa-home"></i>
-							<span>Inicio</span>	
-					    </h:outputLink>
-					</li>  -->	
+				<li class="header">MENU</li>
+				<!-- <li class="active">
+					<h:outputLink value="/Madiba/index.jsf" >
+				        <i class="fa fa-home"></i>
+						<span>Inicio</span>	
+				    </h:outputLink>
+				</li>  -->
+				<h:panelGroup layout="block" rendered="#{modelLogin.role=='conalbos'}">
 					<li class="treeview">
 						<h:outputLink value="#" >
 					        <i class="fa fa-users"></i>
@@ -58,19 +58,45 @@
 							</li>
 						</ul>
 					</li>
+					<li>
+						<h:outputLink value="/Madiba/modulos/audiencia/listaaudiencias.jsf" >
+					        <i class="fa fa-th-list"></i>
+							<span>Audiencia</span>
+					    </h:outputLink>
+					</li>
 				</h:panelGroup>
-				<li>
-					<h:outputLink value="/Madiba/modulos/audiencia/listaaudiencias.jsf" >
-				        <i class="fa fa-th-list"></i>
-						<span>Audiencia</span>
-				    </h:outputLink>
-				</li>
+				
+				<h:panelGroup layout="block" rendered="#{modelLogin.role=='user'}">
+					<li class="treeview">
+						<h:outputLink value="#" >
+					        <i class="fa fa-list-alt"></i>
+							<span>Solicitudes</span>
+					    </h:outputLink>
+					    <ul class="treeview-menu">
+							<li>
+								<h:outputLink value="/Madiba/modulos/solicitudes/solicitarConciliacion/solicitarConciliacion.jsf" >
+							        <i class="fa fa-edit"></i>
+									<span>Solicitar Conciliación</span>
+							    </h:outputLink>
+							</li>
+						</ul>
+					</li>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" rendered="#{modelLogin.role=='conciliador'}">
+					<li>
+						<h:outputLink value="/Madiba/modulos/audiencia/listaaudiencias.jsf" >
+					        <i class="fa fa-th-list"></i>
+							<span>Audiencia</span>
+					    </h:outputLink>
+					</li>
+				</h:panelGroup>
 				<li>
 					<h:outputLink value="/Madiba/autores.jsf" >
 				        <i class="fa fa-users"></i>
 						<span>Autores</span>
 				    </h:outputLink>
-				</li>	
+				</li>
 			</ul>
 			
 			<ui:insert name="busqueda"></ui:insert>

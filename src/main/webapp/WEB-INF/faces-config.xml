@@ -43,6 +43,14 @@
   </navigation-case>
  </navigation-rule>
  
+ <navigation-rule>
+  <from-view-id>/login.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>solicitarConciliacion</from-outcome>
+   <to-view-id>/modulos/solicitudes/solicitarConciliacion/solicitarConciliacion.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ 
  
  <!-- This descriptor activates the JSF 2.0 Servlet 
  Write your navigation rules here. You are encouraged to use CDI 

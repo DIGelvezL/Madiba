@@ -37,7 +37,7 @@
 					<li class="dropdown user user-menu">
 						<a href="#"	class="dropdown-toggle"> 
 							<!--<h:graphicImage library="img/png" name="girl.png" class="user-image" alt="User Image" />-->
-							<h:graphicImage library="img" name="#{modelLogin.role=='conalbos' ? 'png/girl.png' : controllerConciliador.fotoConciliador(modelLogin.idConciliador)}" class="user-image" alt="User Image" style="width:35px;height:35px;margin-top:-8px;margin-right:4px"/>
+							<h:graphicImage library="img" name="#{modelLogin.role=='conalbos' || modelLogin.role=='user' ? 'png/girl.png' : controllerConciliador.fotoConciliador(modelLogin.idConciliador)}" class="user-image" alt="User Image" style="width:35px;height:35px;margin-top:-8px;margin-right:4px"/>
 							<span class="hidden-xs">#{modelLogin.nickname}</span>
 						</a>
 					</li>

@@ -152,7 +152,7 @@ public class SolicitarConciliacionController {
         		guardarDesignacion();
         	}
         	
-    		messageSuccess("Se guardo la solicitud");
+    		messageSuccess("Se guardo la solicitud con el numero " + solicitudVO.getIdSolicitud().toString());
 
       	
 		} catch (Exception ex) {

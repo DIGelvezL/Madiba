@@ -18,7 +18,7 @@
 		</ui:define>
 			
 		<ui:define name="content">
-			#{controllerLogin.redirectConalbos()}			
+            #{controllerLogin.redirectConalbosAndUser()}        
 
 				<h:form id="formularioSolicitarConciliacion" prependId="false" enctype="multipart/form-data">
 				
@@ -93,7 +93,7 @@
 					<div class='main-footer' style="height: 43.11111px;">
 						<div class="text-center">
 							
-							<h:commandButton value="Guardar" ajax="false" update="formularioSolicitarConciliacion" 
+							<h:commandButton value="Guardar" update="formularioSolicitarConciliacion" 
 								actionListener="#{solicitarConciliacionController.guardar}" styleClass="btn btn-sm btn-primary btn-menu"/>
 							<h:commandButton value="Solicitar" ajax="false" update="formularioSolicitarConciliacion"
 								actionListener="#{solicitarConciliacionController.solicitar}" styleClass="btn btn-sm btn-primary btn-menu"/>
