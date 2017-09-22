@@ -20,6 +20,8 @@ import entidades.Pago;
 import entidades.Solicitud;
 import negocio.iAudienciaBean;
 import negocio.iSolicitudBean;
+import service.SolicitudService;
+import vo.SolicitudVO;
 
 
 
@@ -41,12 +43,17 @@ public class ControllerSolicitud {
 	
 	//Contiene la lista de solicitudes con datos quemados
 	public List<Solicitud> listaSolicitud;
+	
+	private List<SolicitudVO> listaSolicitudVO;
 
 	@EJB
 	public iSolicitudBean solicitudBean;
 	
 	@EJB
 	public iAudienciaBean audienciaBean;
+	
+	@EJB
+	private SolicitudService solicitudService;
 	
 	private Map<String, String> coloresEstado;
 			
@@ -97,12 +104,10 @@ public class ControllerSolicitud {
 	}
 	
 	
-	/*
-	public List<Solicitud> allSolicitudes(String estado){
-		this.listaSolicitud = this.solicitudBean.allSolicitud(estado);
-		return this.listaSolicitud;
+	public void findAll(){
+		this.listaSolicitudVO = solicitudService.findAll();
 	}
-	*/
+	
 
 	public void findSolicitudes(){
 		String numero = this.modelBusqueda.getNumero();
@@ -479,4 +484,14 @@ public class ControllerSolicitud {
 		
 		return "fa-square";
 	}
+
+	public List<SolicitudVO> getListaSolicitudVO() {
+		return listaSolicitudVO;
+	}
+
+	public void setListaSolicitudVO(List<SolicitudVO> listaSolicitudVO) {
+		this.listaSolicitudVO = listaSolicitudVO;
+	}
+	
+	
 }

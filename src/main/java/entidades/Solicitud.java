@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name="\"Solicitud\"")
 @NamedQueries({
-	@NamedQuery(name="Solicitud.findAll", query="SELECT s FROM Solicitud s WHERE s.estado like :estado ORDER BY s.idSolicitud"),
+	@NamedQuery(name="Solicitud.findAll", query="SELECT s FROM Solicitud s"),
 	
 	@NamedQuery(name="Solicitud.findAudiencias", query="SELECT DISTINCT s FROM Solicitud s, Agenda ag, Audiencia au WHERE ag.fecha >= :fechaInicial AND ag.audiencia.idAudiencia = au.idAudiencia AND au.solicitud.idSolicitud = s.idSolicitud AND s.estado like 'AUDIENCIA%' ORDER BY s.fecha"),
 	@NamedQuery(name="Solicitud.findAudienciasFiltroParteFecha", query="SELECT DISTINCT s FROM Solicitud s, Agenda ag, Audiencia au, Parte p WHERE ag.fecha >= :fechaInicial AND ag.audiencia.idAudiencia = au.idAudiencia AND au.solicitud.idSolicitud = s.idSolicitud AND s.idSolicitud = p.solicitud.idSolicitud AND p.identificacion=:identificacion AND p.tipoParte=:tipoParte AND s.estado like 'AUDIENCIA%' ORDER BY s.fecha"),

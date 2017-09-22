@@ -26,19 +26,16 @@ public class SolicitudBean implements iSolicitudBean {
 
 	@Override
 	public List<Solicitud> findSolicitudes(Date fechaInicial, Date fechaFinal){
-		// TODO Auto-generated method stub
 		return this.solicitudDAO.findSolicitudes(fechaInicial, fechaFinal);
 	}
 
 	@Override
 	public List<Solicitud> findAudiencias(String role, Long idConciliador, Date fechaInicial){
-		// TODO Auto-generated method stub
 		return this.solicitudDAO.findAudiencias(role, idConciliador, fechaInicial);
 	}
 	
 	@Override
 	public Solicitud findSolicitud(Long id) {
-		// TODO Auto-generated method stub
 		return this.solicitudDAO.findSolicitud(id);
 	}
 	@Override
@@ -48,7 +45,6 @@ public class SolicitudBean implements iSolicitudBean {
 
 	@Override
 	public String findSolicitudEstado(Long id) {
-		// TODO Auto-generated method stub
 		return this.solicitudDAO.findSolicitudEstado(id);
 	}
 
