@@ -20,7 +20,6 @@ import entidades.Pago;
 import entidades.Solicitud;
 import negocio.iAudienciaBean;
 import negocio.iSolicitudBean;
-import service.SolicitudService;
 import vo.SolicitudVO;
 
 
@@ -51,9 +50,6 @@ public class ControllerSolicitud {
 	
 	@EJB
 	public iAudienciaBean audienciaBean;
-	
-	@EJB
-	private SolicitudService solicitudService;
 	
 	private Map<String, String> coloresEstado;
 			
@@ -102,12 +98,6 @@ public class ControllerSolicitud {
 			}
 		}
 	}
-	
-	
-	public void findAll(){
-		this.listaSolicitudVO = solicitudService.findAll();
-	}
-	
 
 	public void findSolicitudes(){
 		String numero = this.modelBusqueda.getNumero();

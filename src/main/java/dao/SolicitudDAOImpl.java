@@ -12,6 +12,8 @@ import entidades.Solicitud;
 @Stateless
 public class SolicitudDAOImpl {
 	
+	static String estadoGuardada = "GUARDADA";
+	
 	@PersistenceContext(unitName = "MadibaPU")
 	EntityManager em;
 
@@ -48,6 +50,12 @@ public class SolicitudDAOImpl {
 	public Long findMaxId() {
 		Query q = em.createQuery("SELECT MAX(s.idSolicitud) FROM Solicitud s");
 		return (Long) q.getSingleResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Solicitud> findByEstadoGuardada() {
+		Query q = em.createQuery("SELECT s FROM Solicitud s WHERE s.estado = '" + estadoGuardada + "'");
+		return q.getResultList();
 	}
 
 }

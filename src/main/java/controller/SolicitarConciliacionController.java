@@ -153,7 +153,8 @@ public class SolicitarConciliacionController {
         	}
         	
     		messageSuccess("Se guardo la solicitud con el numero " + solicitudVO.getIdSolicitud().toString());
-
+    		
+    		inicializar();
       	
 		} catch (Exception ex) {
 			ex.printStackTrace();

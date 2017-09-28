@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head></h:head>
+<body>
+	<ui:composition>
+	
+		<h:panelGroup rendered="#{controllerSolicitud.bloquearModalSobrecosto()}">
+			<div class="modal inmodal" id="modalRadicar" tabindex="-1" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="animated flipInY">
+						<div class="box box-primary box-solid animated flipInY">
+							<div class="box-header text-center with-border">
+								<h3 class="box-title">Detalle del Pago.</h3>
+							</div>
+							<h:form id="modalradicar">
+								<div class="box-body" style="background-color: aliceblue;">
+										<div class="row">
+											<div class="col-lg-12">
+					              				<h:outputLabel styleClass="text-center" value="Radicado No. #{modelSolicitud.selectSolicitud.get(0).nroRadicado}" />				              				
+					              			</div>
+										</div>
+									<div class="row">
+										<div class="col-lg-6">
+											<div class="form-group">
+												<h:outputLabel value="Forma de Pago: " />
+												<h:inputText value="Efectivo" readonly="true" styleClass="form-control"  />
+												
+											</div>
+										</div>
+										<div class="col-lg-6">		
+											<div class="form-group">
+												<h:outputLabel value="Total a Pagar: " />
+												<h:inputText value="#{controllerSolicitud.mascaraValor(controllerSolicitud.valorSobrecosto())}" readonly="true" styleClass="form-control"  />
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="box-footer">
+									<h:commandButton value="Pagar" actionListener="#{controllerSolicitud.guardarPago(modelSolicitud.selectSolicitud.get(0))}" action="listasolicitudes" onclick="$('#modalRadicar').modal('hide');" styleClass="btn btn-info pull-right" >
+									</h:commandButton>
+									<button class="btn btn-danger pull-right" data-dismiss="modal">Salir</button>
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+	</ui:composition>
+</body>
+</html>
