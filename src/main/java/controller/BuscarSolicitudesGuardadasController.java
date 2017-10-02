@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import entidades.Solicitud;
 import service.SolicitudService;
 import vo.ConciliadorVO;
 import vo.DesignacionVO;
@@ -23,13 +25,15 @@ public class BuscarSolicitudesGuardadasController {
 	
 	private List<SolicitudResponseVO> solicitudResponseVOList;
 	private Map<String, String> coloresEstado;
+	private SolicitudResponseVO solicitudResponseVO;
+	private String statusSelect = "";
 	
 	@EJB
 	private SolicitudService solicitudService;
 	
 	@PostConstruct
 	public void inicializar() {
-		coloresEstado = new HashMap<String, String>();
+		coloresEstado = new HashMap<>();
 		coloresEstado.put("GRABADA", "info");
 		coloresEstado.put("PAGADA", "primary");
 		coloresEstado.put("RADICADA", "warning");
@@ -38,11 +42,37 @@ public class BuscarSolicitudesGuardadasController {
 		coloresEstado.put("AUDIENCIA-PENDIENTE", "primary");
 		coloresEstado.put("AUDIENCIA-ENCURSO", "warning");
 		coloresEstado.put("AUDIENCIA-FINALIZADA", "success");
-		coloresEstado.put("FINALIZADA-SOBRECOSTO", "black");
+		coloresEstado.put("GUARDADA", "black");
 		coloresEstado.put("DESIGNACION-SOBRECOSTO", "black");
 		coloresEstado.put("REGISTRADA", "black");
 		
 		solicitudResponseVOList = solicitudService.findByEstadoGuardada();
+	}
+	
+	public void addSelectSolicitud(SolicitudResponseVO auxSolicitud, String estado){
+		if(!statusSelect.equals(estado)){
+			statusSelect = estado;
+			solicitudResponseVO = new SolicitudResponseVO();
+		}
+		
+		if(Objects.nonNull(solicitudResponseVO.getSolicitudVO()) && solicitudResponseVO.getSolicitudVO().getIdSolicitud().equals(auxSolicitud.getSolicitudVO().getIdSolicitud())){
+			solicitudResponseVO = new SolicitudResponseVO();
+		}else{
+			solicitudResponseVO = auxSolicitud;
+			statusSelect = estado;
+		}
+	}
+	
+	public String colorSolicitudEstado(String estado){
+		return coloresEstado.get(estado);
+	}
+	
+	public String seleccionarSolicitud(SolicitudResponseVO auxSolicitud, String estado){
+		if(Objects.nonNull(solicitudResponseVO) && Objects.nonNull(solicitudResponseVO.getSolicitudVO()) 
+			&& solicitudResponseVO.getSolicitudVO().getIdSolicitud().equals(auxSolicitud.getSolicitudVO().getIdSolicitud())){
+			return "seleccionar-solicitud-"+coloresEstado.get(estado);
+		}
+		return "";
 	}
 
 	public List<SolicitudResponseVO> getSolicitudResponseVOList() {

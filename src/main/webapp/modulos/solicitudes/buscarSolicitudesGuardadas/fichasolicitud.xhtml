@@ -12,8 +12,8 @@
 	<ui:composition>
 		
 		<h:panelGroup layout="block" styleClass="col-lg-6 col-md-12 col-sm-12 col-xs-12">	
-			<f:ajax event="click" listener="#{modelSolicitud.addSelectSolicitud(solicitud,solicitud.solicitudVO.estado)}" render="#{formulario}" ></f:ajax>	 
-			<h:panelGroup layout="block" styleClass="box box-#{controllerSolicitud.colorSolicitudEstado(solicitud.solicitudVO.estado)} sombra #{controllerSolicitud.seleccionarSolicitud(solicitud,solicitud.solicitudVO.estado)}">
+			<f:ajax event="click" listener="#{buscarSolicitudesGuardadasController.addSelectSolicitud(solicitud, solicitud.solicitudVO.estado)}" render="#{formulario}" ></f:ajax>	 
+			<h:panelGroup layout="block" styleClass="box box-#{buscarSolicitudesGuardadasController.colorSolicitudEstado(solicitud.solicitudVO.estado)} sombra #{buscarSolicitudesGuardadasController.seleccionarSolicitud(solicitud, solicitud.solicitudVO.estado)}">
 				
 				<div class="box-header with-border" style="padding-bottom:0px">
 					<i>
@@ -40,7 +40,7 @@
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 							<h:outputLabel value="Conciliador" />
 							<br/>
-							<h:outputText style="padding-left:10%" value="#{solicitud.designacionVOList.get(solicitud.designacionVOList.size()-1).conciliadorVO.apellidos} #{solicitud.designacionVOList.get(solicitud.designacionVOList.size()-1).conciliadorVO.nombres}" />							
+							<h:outputText style="padding-left:10%" value="#{solicitud.designacionVOList.size()>0 ? solicitud.designacionVOList.get(solicitud.designacionVOList.size()-1).conciliadorVO.apellidos: ''} #{solicitud.designacionVOList.size()>0 ? solicitud.designacionVOList.get(solicitud.designacionVOList.size()-1).conciliadorVO.nombres: ''}" />							
 							<br/>
 							<h:outputLabel value="Convocados" />
 							<ul>
@@ -68,7 +68,7 @@
 		          	</div>
 		          	<div class="col-lg-6">
 			            <h:outputLabel value="Conciliador por:" />
-			            <h:outputText style="padding-left:5%" value="#{solicitud.designacionVOList.get(solicitud.designacionVOList.size()-1).tipoDesignacion}" />
+			            <h:outputText style="padding-left:5%" value="#{solicitud.designacionVOList.size()>0 ? solicitud.designacionVOList.get(solicitud.designacionVOList.size()-1).tipoDesignacion: ''}" />
 		          	</div>
 		        </h:panelGroup>
 			</h:panelGroup>

@@ -126,7 +126,7 @@
 					<div class="col-md-12">
 						<div class="nav-tabs-custom">
 							<ul class="nav nav-tabs" style="border-color: blue">
-								<li class="active"><a href="#todas" data-toggle="tab">Todas <span class="label label-black">#{controllerSolicitud.listaSolicitud.size()}</span></a></li>
+								<li class="active"><a href="#todas" data-toggle="tab">Todas <span class="label label-black">#{buscarSolicitudesGuardadasController.solicitudResponseVOList.size()}</span></a></li>
 							</ul>
 							<div class="tab-content">
 
@@ -139,7 +139,7 @@
 											<h:panelGroup layout="block" class="row">
 												<ui:include src="fichasolicitud.xhtml"></ui:include> 
 												<h:panelGroup rendered="#{controllerSolicitud.listaSolicitud.size()>(n.index+1)}">							
-													<ui:repeat offset="#{n.index+1}" size="#{n.index+2}" var="solicitud" value="#{controllerSolicitud.listaSolicitud}">
+													<ui:repeat offset="#{n.index+1}" size="#{n.index+2}" var="solicitud" value="#{buscarSolicitudesGuardadasController.solicitudResponseVOList}">
 														<ui:include src="fichasolicitud.xhtml"></ui:include>
 													</ui:repeat>
 												</h:panelGroup>
