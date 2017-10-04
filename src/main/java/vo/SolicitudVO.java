@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class SolicitudVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

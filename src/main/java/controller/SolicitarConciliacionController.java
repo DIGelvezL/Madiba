@@ -10,9 +10,10 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -25,12 +26,13 @@ import vo.AnexoVO;
 import vo.ConciliadorVO;
 import vo.DesignacionVO;
 import vo.ParteVO;
+import vo.SolicitudResponseVO;
 import vo.SolicitudVO;
 
 
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class SolicitarConciliacionController {
 	
 	@ManagedProperty(value = "#{convocanteVO}")
@@ -53,6 +55,9 @@ public class SolicitarConciliacionController {
 	
 	@ManagedProperty(value = "#{anexoVO}")
 	private AnexoVO anexoVO;
+	
+	@ManagedProperty(value = "#{solicitudResponseVO}")
+	private SolicitudResponseVO solicitudResponseVO;
 	
 	private boolean tipoDesignacion;
 	private boolean onOff;
@@ -376,6 +381,25 @@ public class SolicitarConciliacionController {
 	public void mostrarAgregarConvocado() {
 		agregarConvocado = true;
 	}
+	
+	public void cargarSolicitud(SolicitudResponseVO solicitudResponseVO){
+		this.solicitudResponseVO = solicitudResponseVO;
+		convocanteVOList = solicitudResponseVO.getParteVOList();
+		solicitudVO.setEstado(this.solicitudResponseVO.getSolicitudVO().getEstado());
+    	solicitudVO.setFecha(this.solicitudResponseVO.getSolicitudVO().getFecha());
+    	solicitudVO.setConciliable(this.solicitudResponseVO.getSolicitudVO().getConciliable());
+    	solicitudVO.setAsunto(this.solicitudResponseVO.getSolicitudVO().getAsunto());
+    	solicitudVO.setCuantia(this.solicitudResponseVO.getSolicitudVO().getCuantia());
+    	
+//    	if(onOff && conciliadorVO == null){
+//    		messageError("Debe seleccionar un conciliador");
+//    		return;
+//    	}
+    	RequestContext.getCurrentInstance().update(":convocantes");
+//    	FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("tablaAgregarConvocante");
+		
+    	
+	}
 
 	/*----------------------- Mensajes ---------------------------*/
 	public void messageSuccess(String msg){
@@ -552,6 +576,14 @@ public class SolicitarConciliacionController {
 
 	public void setAnexosLista(List<String> anexosLista) {
 		this.anexosLista = anexosLista;
+	}
+
+	public SolicitudResponseVO getSolicitudResponseVO() {
+		return solicitudResponseVO;
+	}
+
+	public void setSolicitudResponseVO(SolicitudResponseVO solicitudResponseVO) {
+		this.solicitudResponseVO = solicitudResponseVO;
 	}
 	
 }

@@ -27,8 +27,10 @@ public class BuscarSolicitudesGuardadasController {
 	
 	private List<SolicitudResponseVO> solicitudResponseVOList;
 	private Map<String, String> coloresEstado;
-	private SolicitudResponseVO solicitudResponseVO;
 	private String statusSelect = "";
+
+	@ManagedProperty(value = "#{solicitudResponseVO}")
+	private SolicitudResponseVO solicitudResponseVO;
 	
 	@ManagedProperty(value = "#{modelBusqueda}")
 	private ModelBusqueda modelBusqueda;
@@ -110,6 +112,10 @@ public class BuscarSolicitudesGuardadasController {
 		
 	}
 	
+	public void cargarSolicitud(SolicitudResponseVO solicitudResponseVO){
+		this.solicitudResponseVO = solicitudResponseVO;
+	}
+	
 	/*----------------------- Mensajes ---------------------------*/
 
 	/*----------------------- getters y setters ---------------------------*/
@@ -127,6 +133,14 @@ public class BuscarSolicitudesGuardadasController {
 
 	public void setModelBusqueda(ModelBusqueda modelBusqueda) {
 		this.modelBusqueda = modelBusqueda;
+	}
+
+	public SolicitudResponseVO getSolicitudResponseVO() {
+		return solicitudResponseVO;
+	}
+
+	public void setSolicitudResponseVO(SolicitudResponseVO solicitudResponseVO) {
+		this.solicitudResponseVO = solicitudResponseVO;
 	}
 	
 }
