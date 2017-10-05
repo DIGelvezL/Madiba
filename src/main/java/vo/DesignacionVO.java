@@ -7,7 +7,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class DesignacionVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

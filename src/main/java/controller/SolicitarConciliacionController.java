@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -32,7 +33,7 @@ import vo.SolicitudVO;
 
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class SolicitarConciliacionController {
 	
 	@ManagedProperty(value = "#{convocanteVO}")
@@ -111,9 +112,13 @@ public class SolicitarConciliacionController {
 			convocadoAgragadoVOList = new ArrayList<>();
 			anexosLista = new ArrayList<>();
 			
+			anexoVO = new AnexoVO();
+			
 			id = null;
 			agregarConvocante = true;
 			agregarConvocado = true;
+			
+			cargarSolicitud();
 					
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -135,7 +140,7 @@ public class SolicitarConciliacionController {
         		return;
         	}
     		
-        	if(id == null){
+        	if(solicitudVO.getIdSolicitud() == null){
         		long idSolicitud;
         		if(solicitudService.findMaxId() != null)
         			idSolicitud = solicitudService.findMaxId();
@@ -159,6 +164,7 @@ public class SolicitarConciliacionController {
         	
     		messageSuccess("Se guardo la solicitud con el numero " + solicitudVO.getIdSolicitud().toString());
     		
+    		solicitudResponseVO.limpiarSolicitudResponseVO();
     		inicializar();
       	
 		} catch (Exception ex) {
@@ -256,8 +262,6 @@ public class SolicitarConciliacionController {
 		
 		for (String ubicacion : anexosLista) {
 			cont++;
-			
-			anexoVO = new AnexoVO();
 			
 			anexoVO.setSolicitudVO(solicitudVO);
 			
@@ -382,22 +386,42 @@ public class SolicitarConciliacionController {
 		agregarConvocado = true;
 	}
 	
-	public void cargarSolicitud(SolicitudResponseVO solicitudResponseVO){
-		this.solicitudResponseVO = solicitudResponseVO;
-		convocanteVOList = solicitudResponseVO.getParteVOList();
-		solicitudVO.setEstado(this.solicitudResponseVO.getSolicitudVO().getEstado());
-    	solicitudVO.setFecha(this.solicitudResponseVO.getSolicitudVO().getFecha());
-    	solicitudVO.setConciliable(this.solicitudResponseVO.getSolicitudVO().getConciliable());
-    	solicitudVO.setAsunto(this.solicitudResponseVO.getSolicitudVO().getAsunto());
-    	solicitudVO.setCuantia(this.solicitudResponseVO.getSolicitudVO().getCuantia());
-    	
-//    	if(onOff && conciliadorVO == null){
-//    		messageError("Debe seleccionar un conciliador");
-//    		return;
-//    	}
-    	RequestContext.getCurrentInstance().update(":convocantes");
-//    	FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("tablaAgregarConvocante");
-		
+	public void cargarSolicitud(){
+		if(Objects.nonNull(solicitudResponseVO.getSolicitudVO())){
+			solicitudVO = solicitudResponseVO.getSolicitudVO();
+	    	
+	    	if(Objects.nonNull(solicitudResponseVO.getParteVOList())){
+		    	convocanteVOList = new ArrayList<>();
+		    	convocadoVOList = new ArrayList<>();
+		    	
+		    	for (ParteVO parteVO : solicitudResponseVO.getParteVOList()) {
+					if(parteVO.getTipoParte().equals("Convocante")){
+						convocanteVOList.add(parteVO);
+					}else if(parteVO.getTipoParte().equals("Convocado")){
+						convocadoVOList.add(parteVO);
+					}
+				}
+	    	}
+	    	
+	    	if(Objects.nonNull(solicitudResponseVO.getAnexoVOList())){
+	    		for (AnexoVO item : solicitudResponseVO.getAnexoVOList()) {
+	    			anexoVO = item;
+				}
+	    	}
+	    	
+	    	if(Objects.nonNull(solicitudResponseVO.getDesignacionVOList())){
+	    		for (DesignacionVO item : solicitudResponseVO.getDesignacionVOList()) {
+	    			designacionVO = item;
+				}
+	    	}
+
+	//    	if(onOff && conciliadorVO == null){
+	//    		messageError("Debe seleccionar un conciliador");
+	//    		return;
+	//    	}
+	    	RequestContext.getCurrentInstance().update(":formularioSolicitarConciliacion");
+	    	FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add(":formularioSolicitarConciliacion");
+		}
     	
 	}
 

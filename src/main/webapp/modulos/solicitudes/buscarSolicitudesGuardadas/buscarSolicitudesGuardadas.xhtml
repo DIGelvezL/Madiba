@@ -158,7 +158,7 @@
 				<h:form id='formBotones'>
 					
 					
-					<h:commandButton value="Completar Solicitud" action="solicitarConciliacionRedirect" actionListener="#{solicitarConciliacionController.cargarSolicitud(buscarSolicitudesGuardadasController.solicitudResponseVO)}" 
+					<h:commandButton value="Completar Solicitud" action="solicitarConciliacionRedirect" actionListener="#{solicitudResponseVO.obtenerSolicitudResponseVO(buscarSolicitudesGuardadasController.solicitudResponseVO)}" 
 						disabled="#{buscarSolicitudesGuardadasController.solicitudResponseVO.solicitudVO.idSolicitud==null? true: false}" styleClass="btn btn-sm btn-primary btn-menu"/>
 					
 					<h:commandButton value="Tabla" action="listasolicitudestabla" styleClass="btn btn-sm btn-primary btn-menu"/>	

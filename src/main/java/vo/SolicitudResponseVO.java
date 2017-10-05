@@ -17,6 +17,20 @@ public class SolicitudResponseVO implements Serializable {
 	private List<DesignacionVO> designacionVOList;
 	private List<ParteVO> parteVOList;
 	
+	public void obtenerSolicitudResponseVO(SolicitudResponseVO solicitudResponseVO){
+		solicitudVO = solicitudResponseVO.getSolicitudVO();
+		anexoVOList = solicitudResponseVO.getAnexoVOList();
+		designacionVOList = solicitudResponseVO.getDesignacionVOList();
+		parteVOList = solicitudResponseVO.getParteVOList();
+	}
+	
+	public void limpiarSolicitudResponseVO(){
+		solicitudVO = null;
+		anexoVOList = null;
+		designacionVOList = null;
+		parteVOList = null;
+	}
+	
 	public SolicitudVO getSolicitudVO() {
 		return solicitudVO;
 	}
