@@ -160,9 +160,12 @@ public class SolicitarConciliacionController {
         	
         	if(onOff){
         		guardarDesignacion();
+        	}else if(Objects.nonNull(designacionVO.getIdDesignacion())){
+
+        		eliminarDesignacion();
         	}
         	
-    		messageSuccess("Se guardo la solicitud con el numero " + solicitudVO.getIdSolicitud().toString());
+    		messageSuccess("Se guardo la solicitud con el número " + solicitudVO.getIdSolicitud().toString());
     		
     		solicitudResponseVO.limpiarSolicitudResponseVO();
     		inicializar();
@@ -176,6 +179,11 @@ public class SolicitarConciliacionController {
 	public void solicitar() {
         try {
         	
+        	if(validarSolicitud()){
+        		messageError("Débes completar los campos del formulario");
+        		return;
+        	}
+        	
         	solicitudVO.setEstado("GRABADA");
         	Calendar calendar = Calendar.getInstance();
         	Date now = calendar.getTime();
@@ -187,7 +195,7 @@ public class SolicitarConciliacionController {
         		return;
         	}
     		
-        	if(id == null){
+        	if(solicitudVO.getIdSolicitud() == null){
         		long idSolicitud;
         		if(solicitudService.findMaxId() != null)
         			idSolicitud = solicitudService.findMaxId();
@@ -207,16 +215,42 @@ public class SolicitarConciliacionController {
         	
         	if(onOff){
         		guardarDesignacion();
+        	}else if(Objects.nonNull(designacionVO.getIdDesignacion())){
+        		eliminarDesignacion();
         	}
         	
-    		messageSuccess("Se guardo la solicitud");
-
+    		messageSuccess("Se realizó la solicitud correctamente con el número " + solicitudVO.getIdSolicitud().toString());
+    		
+    		solicitudResponseVO.limpiarSolicitudResponseVO();
+    		inicializar();
       	
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			messageError("Error en la transacci�n!!");
         }
     }
+	
+	private boolean validarSolicitud(){
+		boolean error = false;
+		
+		if(Objects.isNull(solicitudVO.getAsunto()) || solicitudVO.getAsunto().isEmpty()){
+			error = true;
+		}
+		
+		if(Objects.isNull(solicitudVO.getCuantia()) || solicitudVO.getCuantia() == 0){
+			error = true;
+		}
+		
+		if(convocanteVOList.isEmpty()){
+			error = true;
+		}
+		
+		if(convocadoVOList.isEmpty()){
+			error = true;
+		}
+		
+		return error;
+	}
 	
 	private void guardarPartes(List<ParteVO> parteList){
 		for (ParteVO item : parteList) {
@@ -255,6 +289,10 @@ public class SolicitarConciliacionController {
 		}else{
 			designacionService.update(designacionVO);
 		}
+	}
+	
+	private void eliminarDesignacion(){
+		designacionService.delete(designacionVO);
 	}
 	
 	private void guardarAnexos(){
@@ -397,8 +435,10 @@ public class SolicitarConciliacionController {
 		    	for (ParteVO parteVO : solicitudResponseVO.getParteVOList()) {
 					if(parteVO.getTipoParte().equals("Convocante")){
 						convocanteVOList.add(parteVO);
+						agregarConvocante = false;
 					}else if(parteVO.getTipoParte().equals("Convocado")){
 						convocadoVOList.add(parteVO);
+						agregarConvocado = false;
 					}
 				}
 	    	}
@@ -415,10 +455,6 @@ public class SolicitarConciliacionController {
 				}
 	    	}
 
-	//    	if(onOff && conciliadorVO == null){
-	//    		messageError("Debe seleccionar un conciliador");
-	//    		return;
-	//    	}
 	    	RequestContext.getCurrentInstance().update(":formularioSolicitarConciliacion");
 	    	FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add(":formularioSolicitarConciliacion");
 		}

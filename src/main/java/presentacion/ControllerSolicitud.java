@@ -446,6 +446,10 @@ public class ControllerSolicitud {
 			if(this.consultaModelSolicitud.getSelectSolicitud().size()==0){
 				return true;
 			}else{
+				if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().get(0).getTipoDesignacion().equals("Solicitud")){
+					return true;
+				}
+				
 				String estadoSolicitud = this.consultaModelSolicitud.getSelectSolicitud().get(0).getEstado();
 				if(estadoSolicitud.equals(estado1) || estadoSolicitud.equals(estado2) ){
 					return false;
