@@ -398,14 +398,16 @@ public class SolicitarConciliacionController {
 
 		setFile(event.getFile());
     	setArchivo(event.getFile().getFileName());
-
-		long idSolicitud;
-		if(solicitudService.findMaxId() != null)
-			idSolicitud = solicitudService.findMaxId();
-		else
-			idSolicitud = 0;
-		
-		solicitudVO.setIdSolicitud(idSolicitud + 1);
+    	
+    	if(Objects.isNull(solicitudVO.getIdSolicitud())){
+			long idSolicitud;
+			if(solicitudService.findMaxId() != null)
+				idSolicitud = solicitudService.findMaxId();
+			else
+				idSolicitud = 0;
+			
+			solicitudVO.setIdSolicitud(idSolicitud + 1);
+    	}
 
 		anexosLista.add(anexoService.guardarAnexos(getFile(), getArchivo(), solicitudVO.getIdSolicitud().toString()));
 	}

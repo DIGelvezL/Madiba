@@ -54,11 +54,11 @@
 					</td>	
 				
 					<td>
-						 <h:outputText value="#{solicitud.designacions.get(solicitud.designacions.size()-1).tipoDesignacion}" />
+						 <h:outputText value="#{solicitud.designacions.size()>0 ? solicitud.designacions.get(solicitud.designacions.size()-1).tipoDesignacion: ''}" />
 					</td>
 				
 					<td>
-						<h:outputText value="#{solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.apellidos} #{solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.nombres} "/>
+						<h:outputText value="#{solicitud.designacions.size()>0 ? solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.apellidos: ''} #{solicitud.designacions.size()>0 ? solicitud.designacions.get(solicitud.designacions.size()-1).conciliador.nombres: ''} "/>
 					</td>
 				
 					<td>
