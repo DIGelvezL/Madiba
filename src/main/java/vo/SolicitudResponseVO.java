@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 public class SolicitudResponseVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	private Long idSolicitud;
 	private SolicitudVO solicitudVO;
 	private List<AnexoVO> anexoVOList;
 	private List<DesignacionVO> designacionVOList;
@@ -31,6 +32,14 @@ public class SolicitudResponseVO implements Serializable {
 		parteVOList = null;
 	}
 	
+	public Long getIdSolicitud() {
+		return idSolicitud;
+	}
+
+	public void setIdSolicitud(Long idSolicitud) {
+		this.idSolicitud = idSolicitud;
+	}
+
 	public SolicitudVO getSolicitudVO() {
 		return solicitudVO;
 	}

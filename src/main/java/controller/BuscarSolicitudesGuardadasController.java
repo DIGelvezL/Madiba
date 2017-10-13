@@ -12,14 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
-import entidades.Solicitud;
 import presentacion.ModelBusqueda;
 import service.SolicitudService;
-import vo.ConciliadorVO;
-import vo.DesignacionVO;
-import vo.ParteVO;
 import vo.SolicitudResponseVO;
-import vo.SolicitudVO;
 
 @ManagedBean
 @ViewScoped
