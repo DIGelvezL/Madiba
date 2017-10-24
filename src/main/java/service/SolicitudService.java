@@ -21,6 +21,8 @@ public interface SolicitudService {
 	
 	public List<SolicitudResponseVO> getById(Long id);
 	
+	public List<SolicitudResponseVO> findById(Long id);
+	
 	public SolicitudVO findByEstado(String estado);
 	
 	public Long findMaxId();

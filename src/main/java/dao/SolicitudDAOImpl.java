@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -38,8 +37,15 @@ public class SolicitudDAOImpl {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Solicitud> findById(Long id) {
+	public List<Solicitud> getById(Long id) {
 		Query q = em.createQuery("SELECT s FROM Solicitud s WHERE s.idSolicitud = :idSolicitud AND s.estado = 'GUARDADA'");
+        q.setParameter("idSolicitud", id);
+		return q.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Solicitud> findById(Long id) {
+		Query q = em.createQuery("SELECT s FROM Solicitud s WHERE s.idSolicitud = :idSolicitud AND s.estado != 'GUARDADA'");
         q.setParameter("idSolicitud", id);
 		return q.getResultList();
 	}

@@ -96,6 +96,18 @@ public class SolicitudServiceImpl implements SolicitudService {
 	@Override
 	public List<SolicitudResponseVO> getById(Long id) {
 		try {
+			List<Solicitud> solicitudList = solicitudDAO.getById(id);
+			
+			return mapearSolicitudes(solicitudList);
+			
+		} catch (Throwable t) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<SolicitudResponseVO> findById(Long id) {
+		try {
 			List<Solicitud> solicitudList = solicitudDAO.findById(id);
 			
 			return mapearSolicitudes(solicitudList);
@@ -214,7 +226,11 @@ public class SolicitudServiceImpl implements SolicitudService {
 					DesignacionVO designacionVO;
 					ConciliadorVO conciliadorVO;
 					designacionVO = modelMapper.map(designacion, DesignacionVO.class);
-					conciliadorVO = modelMapper.map(designacion.getConciliador(), ConciliadorVO.class);
+					if(designacion.getConciliador() != null){
+						conciliadorVO = modelMapper.map(designacion.getConciliador(), ConciliadorVO.class);
+					}else{
+						conciliadorVO = null;
+					}
 					designacionVO.setConciliadorVO(conciliadorVO);
 					designacionVO.setSolicitudVO(solicitudVO);
 					designacionVOList.add(designacionVO);

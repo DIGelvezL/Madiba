@@ -446,7 +446,11 @@ public class ControllerSolicitud {
 			if(this.consultaModelSolicitud.getSelectSolicitud().size()==0){
 				return true;
 			}else{
-				if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().get(0).getTipoDesignacion().equals("Solicitud")){
+				if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().size() > 0){
+					if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().get(0).getTipoDesignacion().equals("Solicitud")){
+						return true;
+					}
+				}else{
 					return true;
 				}
 				

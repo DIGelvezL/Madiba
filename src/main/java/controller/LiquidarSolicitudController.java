@@ -43,7 +43,7 @@ public class LiquidarSolicitudController {
 		coloresEstado.put("REGISTRADA", "black");
 		
 		if(Objects.nonNull(solicitudResponseVO.getIdSolicitud())){
-			solicitudResponseVOList = solicitudService.getById(solicitudResponseVO.getIdSolicitud());
+			solicitudResponseVOList = solicitudService.findById(solicitudResponseVO.getIdSolicitud());
 		}
 	}
 

@@ -19,50 +19,20 @@
 	       	 		<thead>
 		          		<tr>
 		            		<th style="width: 80%;">#{asistenciaParte}s</th>
-		            		<th class="text-center" style="width: 10%;">Asistencia</th>
-		            		<th class="text-center" style="width: 10%;">Excusa</th>
 		          		</tr>
 		        	</thead>
 		        	<tbody>
-						<ui:repeat varStatus="n" var="convocante" id="asistencia-#{asistenciaParte}" value="#{modelDesarrolloAudiencia.asistencia}">
-							<h:panelGroup rendered="#{convocante[0]==asistenciaParte}">
-								
-							 	<tr>
-						            <td style="width: 80%;">
-						            	<h:outputText value="#{convocante[1]}" />
-					            	</td>
-						            <td class="text-center" style="width: 10%;">
-						            
-						            <h:panelGrid class="btn btn-#{convocante[2]? 'success' : 'danger'} btn-xs">
-					            		<i class="fa #{convocante[2]? 'fa-check' : 'fa-close'}"></i>
-					            	</h:panelGrid>
-					            	
-					            	</td>
-					            	 <td class="text-center" style="width: 10%;">
-					            	 <h:panelGroup rendered="#{convocante[2]}" class="btn btn-warning btn-xs">
-						            		<i class="fa fa-square"></i>
-						            	</h:panelGroup >
-						            	<h:panelGroup rendered="#{!convocante[2]}">
-	
-						            		<h:panelGroup rendered="#{convocante[4]!='' and convocante[4]!=null}" onclick="document.getElementById('desarrolloForm:asistencia-#{asistenciaParte}:#{n.index}:download').click()" class="btn btn-success btn-xs">
-						            			<i class="fa fa-download"></i>
-							            	</h:panelGroup>
-	
-							            	<h:commandButton id="download" action="#{fileUtilities.download(convocante[4], convocante[3])}" styleClass="hidden" />
-											
-											<hh:inputFile disabled="#{controllerDesarrolloAudiencia.solicitud.estado!='AUDIENCIA-ENCURSO'}" id="parte" value="#{fileUtilities.file}" styleClass="hidden">
-						            		</hh:inputFile>
-						            		#{fileUtilities.setNombreFile(convocante[3])}
-											<h:panelGroup  onclick="document.getElementById('desarrolloForm:asistencia-#{asistenciaParte}:#{n.index}:parte').click()" rendered="#{convocante[4]=='' || convocante[4]==null}" class="btn btn-danger btn-xs">
-						            			<i class="fa fa-upload"></i>
-							            	</h:panelGroup>							            	
-
-						            	</h:panelGroup>
-						            	
-						            	
-					            	</td>
-					          	</tr>
-				          	</h:panelGroup>
+						<ui:repeat varStatus="n" var="solicitudResponse" value="#{liquidarSolicitudController.solicitudResponseVOList}">
+							<ui:repeat varStatus="n" var="parte" id="asistencia-#{asistenciaParte}" value="#{solicitudResponse.parteVOList}">
+								<h:panelGroup rendered="#{parte.tipoParte==asistenciaParte}">
+									
+								 	<tr>
+							            <td style="width: 80%;">
+							            	<h:outputText value="#{parte.apellidos} #{parte.nombres}" />
+						            	</td>
+						          	</tr>
+					          	</h:panelGroup>
+				          	</ui:repeat>
 						</ui:repeat>	
       				</tbody>
 				</table>
