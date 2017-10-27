@@ -16,14 +16,14 @@
 			
 		<ui:define name="content">
 			#{controllerLogin.redirectConalbos()}
-  			<h:form id="desarrolloForm" enctype="multipart/form-data">
+  			<h:form id="liquidarSolicitudForm" enctype="multipart/form-data">
   				
 				<div class='content-wrapper' style="height:10px;overflow:auto">
 					<div class="content">
 
 						<div class="row">
 							<div class="col-lg-12">
-				  				<h:panelGroup layout="block" class="box box-primary sombra">
+				  				<h:panelGroup layout="block" class="box box-warning sombra">
 									<div class="box-header with-border" style="padding-bottom:0px">
 		                				<i>
 			              					<h:outputLabel value="Liquidar Solicitud" style="font-size:14pt; margin-left:1%"/>
@@ -56,12 +56,12 @@
 					                 				</h:panelGroup>
 												</div>
 												
-												<h:panelGroup layout="block"  styleClass="box-body">
+												<h:panelGroup styleClass="box-body">
 													<div class="col-lg-2" style="padding-left: 40px">
 														<br/><br/>
 														<br/>
-														<h:commandButton value="Conciliable" styleClass="btn btn-primary" style="margin:2px;width:110px;border-radius: 140px 140px 140px 140px;cursor:not-allowed">
-															<f:ajax></f:ajax>
+						                 				<h:commandButton id="idBotonConciliable" value="Conciliable" styleClass="btn btn-#{liquidarSolicitudController.conciliable == true? 'success': 'primary'}" style="margin:2px;width:110px;border-radius: 140px 140px 140px 140px">
+						                   					<f:ajax render="idBotonConciliable idBotonNoConciliable" listener="#{liquidarSolicitudController.setConciliable(true)}"></f:ajax>
 						                 				</h:commandButton>
 													</div>
 													<div class="form-group has-warning col-lg-10 box-body">
@@ -72,8 +72,8 @@
 													<div class="col-lg-2" style="padding-left: 40px">
 														<br/><br/>
 														<br/>
-														<h:commandButton value="No Conciliable" styleClass="btn btn-primary" style="margin:2px;width:110px;border-radius: 140px 140px 140px 140px;cursor:not-allowed">
-															<f:ajax></f:ajax>
+														<h:commandButton id="idBotonNoConciliable" value="No Conciliable" styleClass="btn btn-#{liquidarSolicitudController.conciliable == false? 'success': 'primary'}" style="margin:2px;width:110px;border-radius: 140px 140px 140px 140px">
+						                   					<f:ajax render="idBotonNoConciliable idBotonConciliable" listener="#{liquidarSolicitudController.setConciliable(false)}"></f:ajax>
 						                 				</h:commandButton>
 													</div>
 													
@@ -111,8 +111,11 @@
 				</div>
 				<div class='main-footer' style="height: 43.11111px;">
 					<div class="text-center">
-					
-										
+						<ui:include src="modalVerAnexos.xhtml"></ui:include>
+						
+						<h:commandButton id="btn-finalizar" onclick="$('#modalVerAnexos').modal();" value="Ver Anexos" styleClass="btn btn-success btn-menu" >
+ 							<f:ajax></f:ajax>
+ 						</h:commandButton>
 					</div>
 				</div>
 			</h:form>

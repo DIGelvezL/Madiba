@@ -313,7 +313,6 @@ public class SolicitarConciliacionController {
 					idAnexo = 0;
 				
 				anexoVO.setIdAnexo(idAnexo + 1);
-				int num = (int) (idAnexo + 1);
 				anexoVO.setAnexoNum(cont);
 				
 				anexoService.insert(anexoVO);
