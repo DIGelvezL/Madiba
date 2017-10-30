@@ -19,6 +19,7 @@ public class SolicitudVO implements Serializable {
 	private Date fecha;
 	private String nroRadicado;
 	private double valorPagar;
+	private String motivo;
 	
 	public Long getIdSolicitud() {
 		return idSolicitud;
@@ -67,6 +68,12 @@ public class SolicitudVO implements Serializable {
 	}
 	public void setValorPagar(double valorPagar) {
 		this.valorPagar = valorPagar;
+	}
+	public String getMotivo() {
+		return motivo;
+	}
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
 	}
 	
 }

@@ -11,9 +11,11 @@ import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -34,6 +36,9 @@ public class LiquidarSolicitudController {
 	
 	private StreamedContent file;
 	private Boolean conciliable;
+	private double valorPagar;
+	private String motivo;
+	private Boolean liquidada;
 	
 	@ManagedProperty(value = "#{fileList}")
 	private List<StreamedContent> fileList;
@@ -59,6 +64,32 @@ public class LiquidarSolicitudController {
 		findSolicitudById();
 	}
 	
+	public void liquidar(){
+		for (SolicitudResponseVO solicitudResponseVO: solicitudResponseVOList) {
+			
+			if(Objects.nonNull(conciliable)){
+				if(conciliable){
+					solicitudResponseVO.getSolicitudVO().setConciliable(conciliable);
+					
+					liquidada = true;
+					solicitudService.update(solicitudResponseVO.getSolicitudVO());
+					messageSuccess("Se liquido la solicitud correctamente.");
+				}else{
+					solicitudResponseVO.getSolicitudVO().setConciliable(conciliable);
+					solicitudResponseVO.getSolicitudVO().setValorPagar(0);
+					solicitudResponseVO.getSolicitudVO().setEstado("NEGADA");
+					solicitudResponseVO.getSolicitudVO().setMotivo(motivo);
+					
+					liquidada = true;
+					solicitudService.update(solicitudResponseVO.getSolicitudVO());
+					messageSuccess("Se negó la solicitud correctamente.");
+				}
+			}else{
+				messageError("Debe seleccionar si es conciliable o no es conciliable.");
+			}
+		}
+	}
+	
 	public void findSolicitudById(){
 		if(Objects.nonNull(solicitudResponseVO.getIdSolicitud())){
 			solicitudResponseVOList = solicitudService.findById(solicitudResponseVO.getIdSolicitud());
@@ -66,6 +97,7 @@ public class LiquidarSolicitudController {
 			for (SolicitudResponseVO solicitudResponseVO: solicitudResponseVOList) {
 				if(solicitudResponseVO.getSolicitudVO().getConciliable()){
 					conciliable = solicitudResponseVO.getSolicitudVO().getConciliable();
+					liquidada = conciliable; 
 				}
 				
 				fileList = new ArrayList<>();
@@ -85,6 +117,24 @@ public class LiquidarSolicitudController {
 			
 		}
 	}
+	
+	/*----------------------- Mensajes ---------------------------*/
+	public void messageSuccess(String msg){
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "INFO!!", msg);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public void messageError(String msg){
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR!!", msg);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public void messageWarning(String msg){
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING!!", msg);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	/*----------------------- getters y setters ---------------------------*/
 
 	public List<SolicitudResponseVO> getSolicitudResponseVOList() {
 		return solicitudResponseVOList;
@@ -124,6 +174,30 @@ public class LiquidarSolicitudController {
 
 	public void setConciliable(Boolean conciliable) {
 		this.conciliable = conciliable;
+	}
+
+	public double getValorPagar() {
+		return valorPagar;
+	}
+
+	public void setValorPagar(double valorPagar) {
+		this.valorPagar = valorPagar;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+
+	public Boolean getLiquidada() {
+		return liquidada;
+	}
+
+	public void setLiquidada(Boolean liquidada) {
+		this.liquidada = liquidada;
 	}
 	
 }
