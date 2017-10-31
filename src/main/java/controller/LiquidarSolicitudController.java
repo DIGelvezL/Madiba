@@ -10,16 +10,19 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Session;
 
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import presentacion.SendMail;
 import service.SolicitudService;
 import vo.AnexoVO;
 import vo.SolicitudResponseVO;
@@ -45,6 +48,9 @@ public class LiquidarSolicitudController {
 	
 	@EJB
 	private SolicitudService solicitudService;
+	
+	@Resource(mappedName="java:jboss/mail/Gmail")
+    private Session sessionMail;
 
 	@PostConstruct
 	public void inicializar() throws FileNotFoundException {
@@ -71,18 +77,28 @@ public class LiquidarSolicitudController {
 				if(conciliable){
 					solicitudResponseVO.getSolicitudVO().setConciliable(conciliable);
 					
+					SendMail sendMail = new SendMail();
+					sendMail.emailSolicitudAceptada(solicitudResponseVO, sessionMail);
+					
 					liquidada = true;
 					solicitudService.update(solicitudResponseVO.getSolicitudVO());
 					messageSuccess("Se liquido la solicitud correctamente.");
 				}else{
-					solicitudResponseVO.getSolicitudVO().setConciliable(conciliable);
-					solicitudResponseVO.getSolicitudVO().setValorPagar(0);
-					solicitudResponseVO.getSolicitudVO().setEstado("NEGADA");
-					solicitudResponseVO.getSolicitudVO().setMotivo(motivo);
-					
-					liquidada = true;
-					solicitudService.update(solicitudResponseVO.getSolicitudVO());
-					messageSuccess("Se negó la solicitud correctamente.");
+					if(!motivo.isEmpty()){
+						solicitudResponseVO.getSolicitudVO().setConciliable(conciliable);
+						solicitudResponseVO.getSolicitudVO().setValorPagar(0);
+						solicitudResponseVO.getSolicitudVO().setEstado("NEGADA");
+						solicitudResponseVO.getSolicitudVO().setMotivo(motivo);
+						
+						SendMail sendMail = new SendMail();
+						sendMail.emailSolicitudNegada(solicitudResponseVO, sessionMail);
+						
+						liquidada = true;
+						solicitudService.update(solicitudResponseVO.getSolicitudVO());
+						messageSuccess("Se negó la solicitud correctamente.");
+					}else{
+						messageError("Debe ingresar el motivo.");
+					}
 				}
 			}else{
 				messageError("Debe seleccionar si es conciliable o no es conciliable.");
@@ -105,7 +121,9 @@ public class LiquidarSolicitudController {
 					InputStream stream;
 					try {
 						stream = new FileInputStream(anexoVO.getContenido());
-						file = new DefaultStreamedContent(stream);
+						String[] parts = anexoVO.getContenido().split("\\.");
+						String tipo = parts[parts.length-1];
+						file = new DefaultStreamedContent(stream, tipo);
 				        
 				        fileList.add(file);
 					} catch (FileNotFoundException e) {

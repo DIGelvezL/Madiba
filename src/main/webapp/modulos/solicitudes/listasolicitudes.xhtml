@@ -272,7 +272,7 @@
 					<h:commandButton value="Tabla" action="listasolicitudestabla" styleClass="btn btn-sm btn-primary btn-menu"/>	
 					
 					<h:commandButton value="Liquidar Solicitud" action="liquidarSolicitud" actionListener="#{solicitudResponseVO.setIdSolicitud(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" 
-						 styleClass="btn btn-sm btn-primary btn-menu"/>
+						 styleClass="btn btn-sm btn-primary btn-menu" disabled="#{controllerSolicitud.bloquearBotonLiquidarSolicitud()}"/>
 
 					<h:commandButton value="Detalle Audiencias" action="listaaudienciadetalletabla" actionListener="#{controllerSession.setIdSolicitudAudienciaDetalle(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" disabled="#{modelSolicitud.selectSolicitud.size()==1? 'false': 'true'}" styleClass="btn btn-sm btn-primary btn-menu"/>
 					

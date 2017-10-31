@@ -1,10 +1,22 @@
 package presentacion;
 
-import javax.mail.Session;
-import javax.mail.Message;
-import javax.mail.Transport;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 import javax.mail.Address;
 import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -13,19 +25,8 @@ import javax.mail.internet.MimeMultipart;
 import entidades.Parte;
 import entidades.Solicitud;
 import negocio.iSolicitudBean;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-
-import javax.activation.DataHandler;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
+import vo.ParteVO;
+import vo.SolicitudResponseVO;
 
 @ManagedBean 
 public class SendMail
@@ -181,6 +182,86 @@ public class SendMail
                 e.printStackTrace();
                 System.out.println("Error in Sending Mail: "+e);
             }
+        }
+    }
+    
+    public void emailSolicitudAceptada(SolicitudResponseVO solicitudResponseVO, Session sessionMail) {
+    	 
+        try    {
+        	for(ParteVO parteVO: solicitudResponseVO.getParteVOList()){
+        		if("Convocante".equals(parteVO.getTipoParte())){
+        			String mailConvocante = parteVO.getCorreo();
+        			
+        			BodyPart texto = new MimeBodyPart();
+                	texto.setText("Señor "+parteVO.getNombres() + " " + parteVO.getApellidos());
+                	
+                	BodyPart texto2 = new MimeBodyPart();
+                	texto2.setText("La solicitud N. "+solicitudResponseVO.getSolicitudVO().getIdSolicitud() + " fue aceptada y debe pagar: " + solicitudResponseVO.getSolicitudVO().getValorPagar());
+                	
+                	BodyPart texto3 = new MimeBodyPart();
+                	texto3.setText("lleve la confirmación del pago a la oficina para radicar su solicitud.");
+                	
+                	MimeMultipart multiParte = new MimeMultipart();
+                	multiParte.addBodyPart(texto);
+                	multiParte.addBodyPart(texto2);
+                	multiParte.addBodyPart(texto3);
+                	
+                	MimeMessage m = new MimeMessage(sessionMail);
+                    Address from = new InternetAddress("conalbos.madiba@gmail.com");
+                    Address[] to = new InternetAddress[] {new InternetAddress(mailConvocante) };
+         
+                    m.setFrom(from);
+                    m.setRecipients(Message.RecipientType.TO, to);
+                    m.setSubject("Solicitud de conciliación aceptada - Conalbos");
+                    m.setContent(multiParte);
+                    
+                    Transport.send(m);
+        		}
+        		
+        	}
+        }
+        catch (javax.mail.MessagingException e)
+        {
+            e.printStackTrace();
+            System.out.println("Error in Sending Mail: "+e);
+        }
+    }
+    
+    public void emailSolicitudNegada(SolicitudResponseVO solicitudResponseVO, Session sessionMail) {
+ 
+        try    {
+        	for(ParteVO parteVO: solicitudResponseVO.getParteVOList()){
+        		if("Convocante".equals(parteVO.getTipoParte())){
+        			String mailConvocante = parteVO.getCorreo();
+        			
+        			BodyPart texto = new MimeBodyPart();
+                	texto.setText("Señor "+parteVO.getNombres() + " " + parteVO.getApellidos());
+                	
+                	BodyPart texto2 = new MimeBodyPart();
+                	texto2.setText("La solicitud N. "+solicitudResponseVO.getSolicitudVO().getIdSolicitud() + " fue negada por el siguiente motivo: " + solicitudResponseVO.getSolicitudVO().getMotivo());
+                	
+                	MimeMultipart multiParte = new MimeMultipart();
+                	multiParte.addBodyPart(texto);
+                	multiParte.addBodyPart(texto2);
+                	
+                	MimeMessage m = new MimeMessage(sessionMail);
+                    Address from = new InternetAddress("conalbos.madiba@gmail.com");
+                    Address[] to = new InternetAddress[] {new InternetAddress(mailConvocante) };
+         
+                    m.setFrom(from);
+                    m.setRecipients(Message.RecipientType.TO, to);
+                    m.setSubject("Solicitud de conciliación negada - Conalbos");
+                    m.setContent(multiParte);
+                    
+                    Transport.send(m);
+        		}
+        		
+        	}
+        }
+        catch (javax.mail.MessagingException e)
+        {
+            e.printStackTrace();
+            System.out.println("Error in Sending Mail: "+e);
         }
     }
 }

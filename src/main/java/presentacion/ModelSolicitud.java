@@ -248,5 +248,15 @@ public class ModelSolicitud {
 		this.referenciaPago = referenciaPago;
 	}
 
+
+	public String getStatusSelect() {
+		return statusSelect;
+	}
+
+
+	public void setStatusSelect(String statusSelect) {
+		this.statusSelect = statusSelect;
+	}
+	
 	
 }
