@@ -4,9 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
@@ -32,7 +30,6 @@ import vo.SolicitudResponseVO;
 public class LiquidarSolicitudController {
 	
 	private List<SolicitudResponseVO> solicitudResponseVOList;
-	private Map<String, String> coloresEstado;
 	
 	@ManagedProperty(value = "#{solicitudResponseVO}")
 	private SolicitudResponseVO solicitudResponseVO;
@@ -54,18 +51,6 @@ public class LiquidarSolicitudController {
 
 	@PostConstruct
 	public void inicializar() throws FileNotFoundException {
-		coloresEstado = new HashMap<>();
-		coloresEstado.put("GRABADA", "info");
-		coloresEstado.put("PAGADA", "primary");
-		coloresEstado.put("RADICADA", "warning");
-		coloresEstado.put("DESIGNACION", "success");
-		coloresEstado.put("AUDIENCIA-CITACION", "info");
-		coloresEstado.put("AUDIENCIA-PENDIENTE", "primary");
-		coloresEstado.put("AUDIENCIA-ENCURSO", "warning");
-		coloresEstado.put("AUDIENCIA-FINALIZADA", "success");
-		coloresEstado.put("GUARDADA", "black");
-		coloresEstado.put("DESIGNACION-SOBRECOSTO", "black");
-		coloresEstado.put("REGISTRADA", "black");
 		
 		findSolicitudById();
 	}
@@ -127,7 +112,7 @@ public class LiquidarSolicitudController {
 				        
 				        fileList.add(file);
 					} catch (FileNotFoundException e) {
-						e.printStackTrace();
+						throw new RuntimeException(e);
 					}
 			        
 				}

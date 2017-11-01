@@ -121,7 +121,7 @@ public class SolicitarConciliacionController {
 			cargarSolicitud();
 					
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
         }
 	}
 	
@@ -171,8 +171,8 @@ public class SolicitarConciliacionController {
     		inicializar();
       	
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			messageError("Error en la transacci�n!!");
+			messageError("Error en la transacción!!");
+			throw new RuntimeException(ex);
         }
     }
 	
@@ -225,8 +225,8 @@ public class SolicitarConciliacionController {
     		inicializar();
       	
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			messageError("Error en la transacci�n!!");
+			throw new RuntimeException(ex);
         }
     }
 	

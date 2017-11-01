@@ -2,15 +2,30 @@ package presentacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import entidades.Solicitud;
+import service.SolicitudService;
+import vo.PagoVO;
+import vo.SolicitudResponseVO;
 
 @ManagedBean
 @ViewScoped
 public class ModelSolicitud {
+	
+	@ManagedProperty(value = "#{solicitudResponseVO}")
+	private SolicitudResponseVO solicitudResponseVO;
+	
+	private List<SolicitudResponseVO> solicitudResponseVOList;
+	private PagoVO pagoVO;
+	
+	@EJB
+	private SolicitudService solicitudService;
 
 	private int id;
 	private String fecha;
@@ -95,9 +110,49 @@ public class ModelSolicitud {
 				this.selectSolicitud = new ArrayList<Solicitud>();
 				this.selectSolicitud.add(auxSolicitud);
 				statusSelect = estado;
+				if(auxSolicitud.getConciliable() && "GRABADA".equals(auxSolicitud.getEstado())){
+					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
+					findSolicitudById(auxSolicitud.getIdSolicitud());
+				}
 			}
 		}
 	}
+	
+	public void findSolicitudById(Long idSolicitud){
+		if(Objects.nonNull(idSolicitud)){
+			solicitudResponseVOList = solicitudService.findById(idSolicitud);
+		}
+	}
+	
+	public SolicitudResponseVO getSolicitudResponseVO() {
+		return solicitudResponseVO;
+	}
+
+
+	public void setSolicitudResponseVO(SolicitudResponseVO solicitudResponseVO) {
+		this.solicitudResponseVO = solicitudResponseVO;
+	}
+
+
+	public List<SolicitudResponseVO> getSolicitudResponseVOList() {
+		return solicitudResponseVOList;
+	}
+
+
+	public void setSolicitudResponseVOList(List<SolicitudResponseVO> solicitudResponseVOList) {
+		this.solicitudResponseVOList = solicitudResponseVOList;
+	}
+
+
+	public PagoVO getPagoVO() {
+		return pagoVO;
+	}
+
+
+	public void setPagoVO(PagoVO pagoVO) {
+		this.pagoVO = pagoVO;
+	}
+
 
 	public String getPretenciones() {
 		return pretenciones;
