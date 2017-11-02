@@ -17,7 +17,8 @@ public class PagoVO implements Serializable {
 	private Date fecha;
 	private Integer formaPago;
 	private Integer referencia;
-	private Integer valor;
+	private double valor;
+	private String estado;
 	private SolicitudVO solicitudVO;
 	
 	public Long getIdPago() {
@@ -50,11 +51,18 @@ public class PagoVO implements Serializable {
 	public void setReferencia(Integer referencia) {
 		this.referencia = referencia;
 	}
-	public Integer getValor() {
+	public double getValor() {
 		return valor;
 	}
-	public void setValor(Integer valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
+	}
+	
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	public SolicitudVO getSolicitudVO() {
 		return solicitudVO;

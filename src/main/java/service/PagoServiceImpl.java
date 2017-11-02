@@ -77,5 +77,10 @@ public class PagoServiceImpl implements PagoService {
 	public Long findMaxId() {
 		return pagoDAO.findMaxId();
 	}
+	
+	@Override
+	public Integer findMaxReferencia() {
+		return pagoDAO.findMaxReferencia();
+	}
 
 }

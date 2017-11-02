@@ -42,5 +42,10 @@ public class PagoDAOImpl {
 		Query q = em.createQuery("SELECT MAX(p.idPago) FROM Pago p");
 		return (Long) q.getSingleResult();
 	}
+	
+	public Integer findMaxReferencia() {
+		Query q = em.createQuery("SELECT MAX(p.referencia) FROM Pago p");
+		return (Integer) q.getSingleResult();
+	}
 
 }

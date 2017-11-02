@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
 <body>
@@ -18,6 +19,7 @@
 						<h:form id="modalRegistrarPago">
 							<div class="box-body" style="background-color: aliceblue;">
 									<div class="row">
+										<p:growl id="messages" showDetail="true" />
 										<div class="col-lg-12">
 				              				<h:outputLabel styleClass="text-center" value="Solicitud No. #{modelSolicitud.solicitudResponseVO.idSolicitud}" />				              				
 				              			</div>
@@ -25,9 +27,26 @@
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
+											<h:outputLabel value="Banco: " />
+											<h:selectOneMenu class="form-control" id="idBanco" value="#{registrarPagoController.pagoVO.banco}" >
+									            <f:selectItem itemLabel="Select One" itemValue="" />
+									            <f:selectItem itemLabel="Bancolombia" itemValue="1" />
+									        </h:selectOneMenu>
+										</div>
+									</div>
+									<div class="col-lg-6">		
+										<div class="form-group">
+											<h:outputLabel value="Referencia: " />
+											<h:inputText value="#{modelSolicitud.pagoReferencia}" readonly="true" styleClass="form-control"  />
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
 											<h:outputLabel value="Forma de Pago: " />
-											<h:inputText value="Efectivo" readonly="true" styleClass="form-control"  />
-											
+											<h:selectOneMenu class="form-control" id="idFormaPago" value="#{registrarPagoController.pagoVO.formaPago}" >
+									            <f:selectItem itemLabel="Select One" itemValue="" />
+									            <f:selectItem itemLabel="Consignación" itemValue="3" />
+									        </h:selectOneMenu>
 										</div>
 									</div>
 									<div class="col-lg-6">		
@@ -40,9 +59,9 @@
 							</div>
 							
 							<div class="box-footer">
-								<h:commandButton value="Pagar" actionListener="#{controllerSolicitud.guardarPago(modelSolicitud.selectSolicitud.get(0))}" action="listasolicitudes" onclick="$('#modalRegistrarPago').modal('hide');" styleClass="btn btn-info pull-right" >
-								</h:commandButton>
-								<button class="btn btn-danger pull-right" data-dismiss="modal">Salir</button>
+								<h:commandButton value="Registrar pago" actionListener="#{registrarPagoController.registrarPago}" action="listasolicitudes" onclick="$('#modalRegistrarPago').modal('hide');" styleClass="btn btn-info pull-right" />
+								
+								<button class="btn btn-danger pull-right" data-dismiss="modal">Cancelar</button>
 							</div>
 						</h:form>
 					</div>

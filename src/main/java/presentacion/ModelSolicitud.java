@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import entidades.Solicitud;
+import service.PagoService;
 import service.SolicitudService;
 import vo.PagoVO;
 import vo.SolicitudResponseVO;
@@ -23,9 +24,13 @@ public class ModelSolicitud {
 	
 	private List<SolicitudResponseVO> solicitudResponseVOList;
 	private PagoVO pagoVO;
+	private Integer pagoReferencia;
 	
 	@EJB
 	private SolicitudService solicitudService;
+	
+	@EJB
+	private PagoService pagoService;
 
 	private int id;
 	private String fecha;
@@ -112,6 +117,7 @@ public class ModelSolicitud {
 				statusSelect = estado;
 				if(auxSolicitud.getConciliable() && "GRABADA".equals(auxSolicitud.getEstado())){
 					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
+					pagoReferencia = (pagoService.findMaxReferencia() + 1);
 					findSolicitudById(auxSolicitud.getIdSolicitud());
 				}
 			}
@@ -311,6 +317,16 @@ public class ModelSolicitud {
 
 	public void setStatusSelect(String statusSelect) {
 		this.statusSelect = statusSelect;
+	}
+
+
+	public Integer getPagoReferencia() {
+		return pagoReferencia;
+	}
+
+
+	public void setPagoReferencia(Integer pagoReferencia) {
+		this.pagoReferencia = pagoReferencia;
 	}
 	
 	

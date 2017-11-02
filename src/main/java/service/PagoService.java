@@ -21,5 +21,7 @@ public interface PagoService {
 	public AnexoVO findById(Integer id);
 	
 	public Long findMaxId();
+	
+	public Integer findMaxReferencia();
 
 }
