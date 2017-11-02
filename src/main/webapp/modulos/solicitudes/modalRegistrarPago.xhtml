@@ -37,7 +37,9 @@
 									<div class="col-lg-6">		
 										<div class="form-group">
 											<h:outputLabel value="Referencia: " />
-											<h:inputText value="#{modelSolicitud.pagoReferencia}" readonly="true" styleClass="form-control"  />
+											<h:inputText value="#{modelSolicitud.pagoReferencia}" readonly="true" styleClass="form-control"  >
+												<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+											</h:inputText>
 										</div>
 									</div>
 									<div class="col-lg-6">
