@@ -272,24 +272,27 @@
 					<h:commandButton value="Liquidar Solicitud" action="liquidarSolicitud" actionListener="#{solicitudResponseVO.setIdSolicitud(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" 
 						 styleClass="btn btn-sm btn-primary btn-menu" disabled="#{controllerSolicitud.bloquearBotonLiquidarSolicitud()}"/>
 						 
-					 <h:commandButton id="btn-liquidar" onclick="$('#modalRegistrarPago').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Registrar Pago" disabled="#{controllerSolicitud.bloquearBotonRegistrarPagoNormal()}" >
+					 <h:commandButton id="btn-registrarPago" onclick="$('#modalRegistrarPago').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Registrar Pago" disabled="#{controllerSolicitud.bloquearBotonRegistrarPagoNormal()}" >
 						<f:ajax></f:ajax>
 					</h:commandButton>
 
-					<h:commandButton id="btn-liquidarSobrecosto" onclick="$('#modalRadicar').modal();" styleClass="btn btn-sm btn-primary	 btn-menu" value="Registrar Pago Sobrecosto" disabled="#{controllerSolicitud.bloquearBotonRegistrarPago()}">
+					<h:commandButton id="btn-radicar" onclick="$('#modalRegistrarPago').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Radicar" disabled="#{controllerSolicitud.bloquearBotonRegistrarPagoNormal()}" >
 						<f:ajax></f:ajax>
 					</h:commandButton>
-
-					<h:commandButton styleClass="btn btn-sm btndefault btn-menu" value="Radicar" disabled="true"></h:commandButton>
 						
 					<h:commandButton id="btn-asignarConciliador" onclick="$('#modalAsignarConciliador').modal();" styleClass="btn btn-sm btn-warning btn-menu" value="Designar Conciliador" disabled="#{controllerSolicitud.bloquearBoton('RADICADA','')}">
 						<f:ajax  listener="#{controllerConciliador.reparto(modelSolicitud.selectSolicitud.get(0))}" render=":formModalAsignarConciliador"></f:ajax>
 					</h:commandButton>
 					
+					<h:commandButton value="Programar Audiencia" action="liquidarSolicitud" actionListener="#{solicitudResponseVO.setIdSolicitud(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" 
+						 styleClass="btn btn-sm btn-primary btn-menu" disabled="#{controllerSolicitud.bloquearBotonLiquidarSolicitud()}"/>
+					
 					<h:commandButton value="Detalle Audiencias" action="listaaudienciadetalletabla" actionListener="#{controllerSession.setIdSolicitudAudienciaDetalle(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" disabled="#{modelSolicitud.selectSolicitud.size()==1? 'false': 'true'}" styleClass="btn btn-sm btn-primary btn-menu"/>
 					
-					<h:commandButton styleClass="btn btn-sm btn-default btn-menu " value="Programar Audiencia" disabled="true"></h:commandButton>
-						
+					<h:commandButton id="btn-liquidarSobrecosto" onclick="$('#modalRadicar').modal();" styleClass="btn btn-sm btn-primary	 btn-menu" value="Registrar Pago Sobrecosto" disabled="#{controllerSolicitud.bloquearBotonRegistrarPago()}">
+						<f:ajax></f:ajax>
+					</h:commandButton>
+					
 					<h:commandButton styleClass="btn btn-sm btn-default btn-menu" value="Registrar" disabled="true"></h:commandButton>
 					
 					<ui:include src="modalRegistrarPago.xhtml"></ui:include>
