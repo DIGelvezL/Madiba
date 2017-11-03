@@ -471,6 +471,10 @@ public class ControllerSolicitud {
 	public boolean bloquearBotonLiquidarSolicitud(){
 		return "GRABADA".equals(this.consultaModelSolicitud.getStatusSelect()) && !this.consultaModelSolicitud.getSelectSolicitud().isEmpty() ? false: true;
 	}
+	
+	public boolean bloquearBotonRadicar(){
+		return "PAGADA".equals(this.consultaModelSolicitud.getStatusSelect()) && !this.consultaModelSolicitud.getSelectSolicitud().isEmpty() ? false: true;
+	}
 		
 	public boolean bloquearBotonRegistrarPago(){
 		if(this.consultaModelSolicitud.getSelectSolicitud().size()==1){
