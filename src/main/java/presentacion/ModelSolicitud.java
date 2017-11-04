@@ -116,16 +116,13 @@ public class ModelSolicitud {
 				this.selectSolicitud.add(auxSolicitud);
 				statusSelect = estado;
 				if(auxSolicitud.getConciliable() && "GRABADA".equals(auxSolicitud.getEstado())){
-					solicitudResponseVO = new SolicitudResponseVO();
 					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
 					pagoReferencia = (pagoService.findMaxReferencia() + 1);
 					findSolicitudById(auxSolicitud.getIdSolicitud());
 				}
 				
 				if(auxSolicitud.getConciliable() && "PAGADA".equals(auxSolicitud.getEstado())){
-					solicitudResponseVO = new SolicitudResponseVO();
 					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
-					findSolicitudById(auxSolicitud.getIdSolicitud());
 				}
 			}
 		}

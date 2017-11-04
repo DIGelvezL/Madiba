@@ -111,7 +111,9 @@
 					#{controllerSolicitud.findSolicitudes()}
 		
 					<ui:include src="modalasignarconciliador.xhtml"></ui:include>
-					
+					<ui:include src="modal/modalRadicarSolicitud.xhtml"></ui:include>					
+					<ui:include src="modalRegistrarPago.xhtml"></ui:include>
+					<ui:include src="modalradicar.xhtml"></ui:include>
 					
 					<div class="col-md-12">
 						<div class="nav-tabs-custom">
@@ -276,7 +278,7 @@
 						<f:ajax></f:ajax>
 					</h:commandButton>
 
-					<h:commandButton id="btn-radicar" onclick="$('#modalRadicar').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Radicar" disabled="#{controllerSolicitud.bloquearBotonRadicar()}" >
+					<h:commandButton id="btn-radicar" onclick="$('#modalRadicarSolicitud').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Radicar" disabled="#{controllerSolicitud.bloquearBotonRadicar()}" >
 						<f:ajax></f:ajax>
 					</h:commandButton>
 						
@@ -294,9 +296,6 @@
 					</h:commandButton>
 					
 					<h:commandButton styleClass="btn btn-sm btn-default btn-menu" value="Registrar" disabled="true"></h:commandButton>
-					
-					<ui:include src="modalRegistrarPago.xhtml"></ui:include>
-					<ui:include src="modalradicar.xhtml"></ui:include>
 					
 				</h:form>
 			</div>

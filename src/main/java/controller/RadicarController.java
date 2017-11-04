@@ -29,7 +29,7 @@ public class RadicarController {
 		
 		solicitudResponseVOList.get(0).getSolicitudVO().setEstado("RADICADA");
     	
-    	solicitudService.update(solicitudResponseVOList.get(0).getSolicitudVO());
+//    	solicitudService.update(solicitudResponseVOList.get(0).getSolicitudVO());
     	
     	messageSuccess("Se radicó la solicitud correctamente.");
 	}
