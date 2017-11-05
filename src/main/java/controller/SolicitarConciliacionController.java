@@ -157,13 +157,7 @@ public class SolicitarConciliacionController {
         	guardarPartes(convocanteVOList);
         	guardarPartes(convocadoVOList);
         	guardarAnexos();
-        	
-        	if(onOff){
-        		guardarDesignacion();
-        	}else if(Objects.nonNull(designacionVO.getIdDesignacion())){
-
-        		eliminarDesignacion();
-        	}
+    		guardarDesignacion();
         	
     		messageSuccess("Se guardo la solicitud con el número " + solicitudVO.getIdSolicitud().toString());
     		
@@ -212,12 +206,7 @@ public class SolicitarConciliacionController {
         	guardarPartes(convocanteVOList);
         	guardarPartes(convocadoVOList);
         	guardarAnexos();
-        	
-        	if(onOff){
-        		guardarDesignacion();
-        	}else if(Objects.nonNull(designacionVO.getIdDesignacion())){
-        		eliminarDesignacion();
-        	}
+    		guardarDesignacion();
         	
     		messageSuccess("Se realizó la solicitud correctamente con el número " + solicitudVO.getIdSolicitud().toString());
     		
@@ -272,8 +261,14 @@ public class SolicitarConciliacionController {
 	}
 	
 	private void guardarDesignacion(){
-		designacionVO.setTipoDesignacion("Solicitud");
-		designacionVO.setConciliadorVO(conciliadorVO);
+		if(onOff){
+			designacionVO.setTipoDesignacion("Solicitud");
+			designacionVO.setConciliadorVO(conciliadorVO);
+		}else{
+			designacionVO.setTipoDesignacion("Reparto");
+			designacionVO.setConciliadorVO(null);
+		}
+		
 		designacionVO.setSolicitudVO(solicitudVO);
 		
 		if(designacionVO.getIdDesignacion() == null){
@@ -289,10 +284,6 @@ public class SolicitarConciliacionController {
 		}else{
 			designacionService.update(designacionVO);
 		}
-	}
-	
-	private void eliminarDesignacion(){
-		designacionService.delete(designacionVO);
 	}
 	
 	private void guardarAnexos(){

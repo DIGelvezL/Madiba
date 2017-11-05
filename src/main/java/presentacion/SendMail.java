@@ -238,7 +238,7 @@ public class SendMail
                 	texto.setText("Señor "+parteVO.getNombres() + " " + parteVO.getApellidos());
                 	
                 	BodyPart texto2 = new MimeBodyPart();
-                	texto2.setText("La solicitud N. "+solicitudResponseVO.getSolicitudVO().getIdSolicitud() + " fue negada por el siguiente motivo: " + solicitudResponseVO.getSolicitudVO().getMotivo());
+                	texto2.setText("La solicitud N. "+solicitudResponseVO.getSolicitudVO().getIdSolicitud() + " no es conciliable por el siguiente motivo: " + solicitudResponseVO.getSolicitudVO().getMotivo());
                 	
                 	MimeMultipart multiParte = new MimeMultipart();
                 	multiParte.addBodyPart(texto);

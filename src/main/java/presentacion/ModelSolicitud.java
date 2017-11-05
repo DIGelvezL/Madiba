@@ -22,8 +22,11 @@ public class ModelSolicitud {
 	@ManagedProperty(value = "#{solicitudResponseVO}")
 	private SolicitudResponseVO solicitudResponseVO;
 	
+	@ManagedProperty(value = "#{solicitudResponseVOList}")
 	private List<SolicitudResponseVO> solicitudResponseVOList;
 	private PagoVO pagoVO;
+	
+	@ManagedProperty(value = "#{pagoReferencia}")
 	private Integer pagoReferencia;
 	
 	@EJB

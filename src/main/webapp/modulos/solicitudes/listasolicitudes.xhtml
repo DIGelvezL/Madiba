@@ -111,8 +111,8 @@
 					#{controllerSolicitud.findSolicitudes()}
 		
 					<ui:include src="modalasignarconciliador.xhtml"></ui:include>
-					<ui:include src="modal/modalRadicarSolicitud.xhtml"></ui:include>					
 					<ui:include src="modalRegistrarPago.xhtml"></ui:include>
+					<ui:include src="modal/modalRadicarSolicitud.xhtml"></ui:include>					
 					<ui:include src="modalradicar.xhtml"></ui:include>
 					
 					<div class="col-md-12">
@@ -275,11 +275,11 @@
 						 styleClass="btn btn-sm btn-primary btn-menu" disabled="#{controllerSolicitud.bloquearBotonLiquidarSolicitud()}"/>
 						 
 					 <h:commandButton id="btn-registrarPago" onclick="$('#modalRegistrarPago').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Registrar Pago" disabled="#{controllerSolicitud.bloquearBotonRegistrarPagoNormal()}" >
-						<f:ajax></f:ajax>
+						<f:ajax render=":modalRegistrarPagoForm"></f:ajax>
 					</h:commandButton>
 
 					<h:commandButton id="btn-radicar" onclick="$('#modalRadicarSolicitud').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Radicar" disabled="#{controllerSolicitud.bloquearBotonRadicar()}" >
-						<f:ajax></f:ajax>
+						<f:ajax render=":modalRadicarSolicitudForm"></f:ajax>
 					</h:commandButton>
 						
 					<h:commandButton id="btn-asignarConciliador" onclick="$('#modalAsignarConciliador').modal();" styleClass="btn btn-sm btn-warning btn-menu" value="Designar Conciliador" disabled="#{controllerSolicitud.bloquearBoton('RADICADA','')}">

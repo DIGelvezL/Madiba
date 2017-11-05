@@ -9,14 +9,14 @@
 <body>
 	<ui:composition>
 	
-		<div class="modal inmodal" id="modalRegistrarPago" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal inmodal" id="modalRegistrarPago" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="animated flipInY">
 					<div class="box box-primary box-solid animated flipInY">
 						<div class="box-header text-center with-border">
 							<h3 class="box-title">Detalle del Pago.</h3>
 						</div>
-						<h:form id="modalRegistrarPago">
+						<h:form id="modalRegistrarPagoForm">
 							<div class="box-body" style="background-color: aliceblue;">
 									<div class="row">
 										<p:growl id="messages" showDetail="true" />
@@ -38,7 +38,6 @@
 										<div class="form-group">
 											<h:outputLabel value="Referencia: " />
 											<h:inputText value="#{modelSolicitud.pagoReferencia}" readonly="true" styleClass="form-control"  >
-												<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
 											</h:inputText>
 										</div>
 									</div>
@@ -54,7 +53,9 @@
 									<div class="col-lg-6">		
 										<div class="form-group">
 											<h:outputLabel value="Total a Pagar: " />
-											<h:inputText value="#{modelSolicitud.solicitudResponseVOList[0].solicitudVO.valorPagar}" readonly="true" styleClass="form-control"  />
+											<h:inputText value="#{modelSolicitud.solicitudResponseVOList[0].solicitudVO.valorPagar}" readonly="true" styleClass="form-control" >
+												<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+											</h:inputText>
 										</div>
 									</div>
 								</div>

@@ -28,8 +28,10 @@ public class RadicarController {
 		findSolicitudById();
 		
 		solicitudResponseVOList.get(0).getSolicitudVO().setEstado("RADICADA");
+		
+		generarNumeroRadicado();
     	
-//    	solicitudService.update(solicitudResponseVOList.get(0).getSolicitudVO());
+    	solicitudService.update(solicitudResponseVOList.get(0).getSolicitudVO());
     	
     	messageSuccess("Se radicó la solicitud correctamente.");
 	}
@@ -38,6 +40,33 @@ public class RadicarController {
 		if(Objects.nonNull(solicitudResponseVO.getIdSolicitud())){
 			solicitudResponseVOList = solicitudService.findById(solicitudResponseVO.getIdSolicitud());
 		}
+	}
+	
+	public void generarNumeroRadicado(){
+		String numeroRadicado = solicitudResponseVOList.get(0).getSolicitudVO().getFecha().toString();
+		String[] parts = numeroRadicado.split("-");
+		
+		numeroRadicado = parts[0] + parts[1] + parts[2];
+		
+		switch (solicitudResponseVOList.get(0).getSolicitudVO().getIdSolicitud().toString().length()) {
+		case 1:
+			numeroRadicado += "0000" + solicitudResponseVOList.get(0).getSolicitudVO().getIdSolicitud().toString(); 
+			break;
+		case 2:
+			numeroRadicado += "000" + solicitudResponseVOList.get(0).getSolicitudVO().getIdSolicitud().toString(); 
+			break;
+		case 3:
+			numeroRadicado += "00" + solicitudResponseVOList.get(0).getSolicitudVO().getIdSolicitud().toString(); 
+			break;
+		case 4:
+			numeroRadicado += "0" + solicitudResponseVOList.get(0).getSolicitudVO().getIdSolicitud().toString(); 
+			break;
+		default:
+			numeroRadicado += solicitudResponseVOList.get(0).getSolicitudVO().getIdSolicitud().toString();
+			break;
+		}
+		
+		solicitudResponseVOList.get(0).getSolicitudVO().setNroRadicado(numeroRadicado);
 	}
 	
 	/*----------------------- Mensajes ---------------------------*/
