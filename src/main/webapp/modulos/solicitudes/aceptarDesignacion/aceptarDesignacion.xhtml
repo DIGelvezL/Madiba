@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition template="/resources/plantilla/plantilla.xhtml">
+		
+		<ui:define name="titulo">
+			 <title>Aceptar Designación</title>	
+		</ui:define>
+			
+		<ui:define name="content">
+			#{controllerLogin.redirectConciliador()}
+  			<h:form id="aceptarDesignacionForm" enctype="multipart/form-data">
+  				
+				<div class='content-wrapper' style="height:10px;overflow:auto">
+					<div class="content">
+
+						<div class="row">
+							<p:messages id="mess" showDetail="true" autoUpdate="true" closable="true" />
+							
+							<div class="col-lg-12">
+				  				<h:panelGroup layout="block" class="box box-success sombra">
+									<div class="box-header with-border" style="padding-bottom:0px">
+		                				<i>
+			              					<h:outputLabel value="Aceptar Solicitud" style="font-size:14pt; margin-left:1%"/>
+			              					<h:outputLabel value="Radicado No. #{aceptarDesignacionController.solicitudResponseVOList[0].solicitudVO.nroRadicado}" styleClass="pull-right" />
+		                  				</i>
+		               				</div>
+		               				<div class="box-body">
+	               					<h:panelGroup>
+										<ui:include src="asistencia.xhtml">
+		               						<ui:param name="asistenciaParte" value="Convocante" />
+		               					</ui:include>
+		               					<ui:include src="asistencia.xhtml">
+		               						<ui:param name="asistenciaParte" value="Convocado" />
+		               					</ui:include>
+	               					</h:panelGroup>
+   						  				<div class="col-lg-12" style="margin-top: 25px">
+								  			<h:panelGroup layout="block" id="desarrollo" class="box box-success sombra">
+												<div class="box-header with-border" style="padding-bottom:0px">
+					                 				<i>
+							              				<h:outputLabel value="Conciliador: " style="font-size:14pt; margin-left:1%"/>
+							                   				<h:outputLabel value="#{aceptarDesignacionController.solicitudResponseVOList[0].designacionVOList.size()>0 ? 
+							                   					aceptarDesignacionController.solicitudResponseVOList[0].designacionVOList[0].conciliadorVO.apellidos: ''} 
+							                   					#{aceptarDesignacionController.solicitudResponseVOList[0].designacionVOList.size()>0 ? 
+							                   						aceptarDesignacionController.solicitudResponseVOList[0].designacionVOList[0].conciliadorVO.nombres: ''}" style="font-size:14pt; margin-left:1%"/>
+					                   				</i>
+												</div>
+												
+												<h:panelGroup styleClass="box-body">
+													<div class="col-lg-2" style="padding-left: 40px">
+														<br/><br/>
+														<br/>
+						                 				<h:commandButton id="idBotonConciliable" value="Aceptar" disabled="#{aceptarDesignacionController.aceptada}" styleClass="btn btn-#{aceptarDesignacionController.aceptar == true? 'success': 'primary'}" style="margin:2px;width:110px;border-radius: 140px 140px 140px 140px">
+						                   					<f:ajax render="idBotonConciliable idBotonNoConciliable" listener="#{aceptarDesignacionController.setAceptar(true)}"></f:ajax>
+						                 				</h:commandButton>
+						                 				<br/><br/>
+						                 				<br/>
+														<h:commandButton id="idBotonNoConciliable" value="No Aceptar" disabled="#{aceptarDesignacionController.aceptada}" styleClass="btn btn-#{aceptarDesignacionController.aceptar == false? 'success': 'primary'}" style="margin:2px;width:110px;border-radius: 140px 140px 140px 140px">
+						                   					<f:ajax render="idBotonNoConciliable idBotonConciliable" listener="#{aceptarDesignacionController.setAceptar(false)}"></f:ajax>
+						                 				</h:commandButton>
+													</div>
+													<div class="form-group has-success col-lg-10 box-body">
+														<label class="control-label" for="inputSuccess"><i class="fa fa-commenting-o"></i> Asunto  </label>
+														<h:inputTextarea id="asunto" readonly="true" value="#{aceptarDesignacionController.solicitudResponseVOList[0].solicitudVO.asunto}" styleClass="form-control" style="resize:none;background-color:#f39c121a;" rows="6"/>
+													</div>
+													
+													<h:panelGroup layout="block" styleClass="form-horizontal form-group col-lg-offset-2 col-lg-10">		
+														<div class="form-group has-success col-lg-10 box-body">											
+															<h:outputLabel value="Pretenciones: " styleClass="col-sm-2 control-label"/>
+															<div class="has-warning col-lg-3">
+																<h:inputText value="#{aceptarDesignacionController.solicitudResponseVOList[0].solicitudVO.cuantia}" readonly="true" styleClass="form-control espacio5 inputPretenciones" >
+																	<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
+																</h:inputText>
+															</div>
+														</div>
+													</h:panelGroup>
+													
+												</h:panelGroup>	
+											</h:panelGroup>
+										</div>
+						  			</div>
+					  			</h:panelGroup>
+				  			</div>
+						</div>
+					</div>
+				</div>
+				<div class='main-footer' style="height: 43.11111px;">
+					<div class="text-center">
+						<ui:include src="modalVerAnexos.xhtml"></ui:include>
+						
+						<h:commandButton value="Enviar" disabled="#{aceptarDesignacionController.aceptada}" actionListener="#{aceptarDesignacionController.aceptarSolicitud}" 
+						 styleClass="btn btn-sm btn-success btn-menu"/>
+						 						
+						<h:commandButton id="btn-finalizar" onclick="$('#modalVerAnexos').modal();" value="Ver Anexos" styleClass="btn btn-sm btn-warning btn-menu" >
+ 							<f:ajax></f:ajax>
+ 						</h:commandButton>
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+		
+	</ui:composition>
+
+</body>
+</html>

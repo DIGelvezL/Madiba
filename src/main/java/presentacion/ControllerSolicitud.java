@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -176,8 +177,93 @@ public class ControllerSolicitud {
 		this.modelBusqueda.setMensaje(false);
 	}
 	
-	
+	public void findSolicitudesByConciliador(){
+		String numero = this.modelBusqueda.getNumero();
+		String tipoFiltro = this.modelBusqueda.getTipoFiltro();
+
+		Date fechaActual = new Date();
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTime(fechaActual);
+    	calendar.add(Calendar.MONTH, -3);   
+    	String fechFn = new SimpleDateFormat("dd/MM/yyyy").format(fechaActual);
+    	String fechIn = new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime());
+    	SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaInicial = null;
+		Date fechaFinal = null;
+		try {
+			 fechaInicial = formatoDelTexto.parse(new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime()));
+			 fechaFinal = formatoDelTexto.parse(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
+		} catch (ParseException ex) {
+		     ex.printStackTrace();
+		}
 		
+		
+		if((this.modelBusqueda.getFechaInicio() == null || this.modelBusqueda.getFechaInicio().equals("")) && 
+				(this.modelBusqueda.getFechaFinal() == null || this.modelBusqueda.getFechaFinal().equals("")) && 
+				(numero == null || numero.equals(""))){
+			this.listaSolicitud = this.solicitudBean.findSolicitudes(fechaInicial, fechaFinal);
+		}else{
+			if(tipoFiltro.equals("Fecha")){
+				try {
+					 fechaInicial = formatoDelTexto.parse(this.modelBusqueda.getFechaInicio());
+					 fechaFinal = formatoDelTexto.parse(this.modelBusqueda.getFechaFinal());
+				} catch (ParseException ex) {
+				     ex.printStackTrace();
+				}
+				this.listaSolicitud = this.solicitudBean.findSolicitudes(fechaInicial,fechaFinal);
+			}
+			else if(numero == null || numero.equals("")){
+				this.listaSolicitud = new ArrayList<>();
+				List<Solicitud> listCopy = this.solicitudBean.findSolicitudes(fechaInicial, fechaFinal);
+				for (Solicitud solicitud: listCopy) {
+					if(!solicitud.getDesignacions().isEmpty()){
+						if(Objects.nonNull(solicitud.getDesignacions().get(0).getConciliador()) && 
+							modelLogin.getIdConciliador().equals(solicitud.getDesignacions().get(0).getConciliador().getIdConciliador())){
+							
+							this.listaSolicitud.add(solicitud);
+						}
+					}
+				}
+			}else{
+				if((this.modelBusqueda.getFechaInicio() != null && !this.modelBusqueda.getFechaInicio().equals("")) && 
+						(this.modelBusqueda.getFechaFinal() != null && !this.modelBusqueda.getFechaFinal().equals(""))){
+					try {
+						 fechaInicial = formatoDelTexto.parse(this.modelBusqueda.getFechaInicio());
+						 fechaFinal = formatoDelTexto.parse(this.modelBusqueda.getFechaFinal());
+					} catch (ParseException ex) {
+					     ex.printStackTrace();
+					}
+					if(tipoFiltro.equals("Conciliador")){
+						this.listaSolicitud = this.solicitudBean.findSolicitudesFiltroConciliadorFecha(fechaInicial, fechaFinal, numero);
+					}else {
+						if(tipoFiltro.equals("Radicado")){
+							this.listaSolicitud = this.solicitudBean.findSolicitudesFiltroRadicado(numero);
+						}else {
+							this.listaSolicitud = this.solicitudBean.findSolicitudesFiltroParteFecha(fechaInicial, fechaFinal, numero, tipoFiltro);
+						}
+					}
+				}else {
+					if(tipoFiltro.equals("Conciliador")){
+						this.listaSolicitud = this.solicitudBean.findSolicitudesFiltroConciliadorFecha(fechaInicial, fechaFinal, numero);
+					}else {
+						if(tipoFiltro.equals("Radicado")){
+							this.listaSolicitud = this.solicitudBean.findSolicitudesFiltroRadicado(numero);
+						}else {
+							this.listaSolicitud = this.solicitudBean.findSolicitudesFiltroParteFecha(fechaInicial, fechaFinal, numero, tipoFiltro);
+						}
+					}
+				}
+			}
+		}
+		
+		// Resetea los inputs
+		this.modelBusqueda.setNumero("");
+		//this.modelBusqueda.setTipoFiltro("Radicado");
+		this.modelBusqueda.setFechaInicio(fechIn);
+		this.modelBusqueda.setFechaFinal(fechFn);
+		this.modelBusqueda.setMensaje(false);
+	}
+	
 	public List<Solicitud> getListaSolicitud() {
 		return listaSolicitud;
 	}
@@ -443,14 +529,10 @@ public class ControllerSolicitud {
 	
 	public boolean bloquearBoton(String estado1, String estado2){
 		
-			if(this.consultaModelSolicitud.getSelectSolicitud().size()==0){
+			if(this.consultaModelSolicitud.getSelectSolicitud().isEmpty()){
 				return true;
 			}else{
-				if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().size() > 0){
-					if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().get(0).getTipoDesignacion().equals("Solicitud")){
-						return true;
-					}
-				}else{
+				if(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().isEmpty()){
 					return true;
 				}
 				

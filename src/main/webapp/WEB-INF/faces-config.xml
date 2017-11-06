@@ -67,6 +67,22 @@
   </navigation-case>
  </navigation-rule>
  
+ <navigation-rule>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>listaSolicitudesConciliador</from-outcome>
+   <to-view-id>/modulos/solicitudes/listaSolicitudesConciliador.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ 
+ <navigation-rule>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>aceptarDesignacion</from-outcome>
+   <to-view-id>/modulos/solicitudes/aceptarDesignacion/aceptarDesignacion.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ 
  
  <!-- This descriptor activates the JSF 2.0 Servlet 
  Write your navigation rules here. You are encouraged to use CDI 

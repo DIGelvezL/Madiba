@@ -11,32 +11,37 @@
 
 	<ui:composition>
 	
-		<div class="modal inmodal" id="modalAsignarConciliador" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal inmodal" id="modalVerAnexos" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="animated flipInY">
 					<div class="box box-primary box-solid animated flipInY">
 						<div class="box-header text-center with-border">
-							<h3 class="box-title">Asignacion de Conciliador.</h3>
+							<h3 class="box-title">Anexos</h3>
 						</div>
-						<h:form id="formModalAsignarConciliador">
 							<div class="box-body" style="background-color: aliceblue;">
 								<div class="row">
 									<div class="col-lg-12 text-center">
-										<h:outputLabel style="font-size: 18px;" value="Radicado No. #{modelSolicitud.solicitudResponseVOList[0].solicitudVO.nroRadicado}" />
 										<br/>
-										<h:outputLabel style="font-size: 16px;" value="Se ha signado el Conciliador por #{modelConciliador.tipoDesignacion}" />
-										<br/>
-										<h:outputLabel style="font-size: 16px;" value="#{modelConciliador.conciliador.apellidos} #{modelConciliador.conciliador.nombres}" />
+										<ui:repeat var="file" value="#{aceptarDesignacionController.fileList}" >
+											<h:panelGroup>
+												<h:outputLabel style="font-size: 18px;" value="Anexo " />
+												<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s">
+											        <p:fileDownload value="#{file}" />
+											        <f:ajax listener="#{aceptarDesignacionController.findSolicitudById}"></f:ajax>
+											    </p:commandButton>
+											</h:panelGroup>
+										</ui:repeat>
 									</div>
 								</div>
 							</div>
 							
 							<div class="box-footer">
 							
-								<h:commandButton onclick="$('#modalAsignarConciliador').modal('hide');" styleClass="btn btn-success pull-right" value="Aceptar" render=":formtodas :formliquidar :formradicar :formasignarconciliador :formaudiencia :formregistrar"></h:commandButton>
+								<h:commandButton onclick="$('#modalVerAnexos').modal('hide');" styleClass="btn btn-danger pull-right" value="Cancelar" >
+									<f:ajax></f:ajax>
+								</h:commandButton>
 								
 							</div>
-						</h:form>
 					</div>
 				</div>
 			</div>

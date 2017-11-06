@@ -124,8 +124,15 @@ public class ModelSolicitud {
 					findSolicitudById(auxSolicitud.getIdSolicitud());
 				}
 				
+
 				if(auxSolicitud.getConciliable() && "PAGADA".equals(auxSolicitud.getEstado())){
 					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
+					findSolicitudById(auxSolicitud.getIdSolicitud());
+				}
+				
+				if(auxSolicitud.getConciliable() && "RADICADA".equals(auxSolicitud.getEstado())){
+					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
+					findSolicitudById(auxSolicitud.getIdSolicitud());
 				}
 			}
 		}

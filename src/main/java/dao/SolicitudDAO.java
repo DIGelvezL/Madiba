@@ -12,7 +12,6 @@ import entidades.Actas_Conciliacione;
 import entidades.Copia;
 import entidades.Devolucione;
 import entidades.Pago;
-import entidades.Resultado;
 import entidades.Solicitud;
 
 
@@ -288,7 +287,6 @@ public class SolicitudDAO {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	public Solicitud findSolicitud(Long id){
 		Solicitud solicitud = this.manager.find(Solicitud.class,id);		
 		
