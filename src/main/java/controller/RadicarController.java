@@ -27,7 +27,11 @@ public class RadicarController {
 	public void radicar(){
 		findSolicitudById();
 		
-		solicitudResponseVOList.get(0).getSolicitudVO().setEstado("RADICADA");
+		if("Reparto".equals(solicitudResponseVOList.get(0).getDesignacionVOList().get(0).getTipoDesignacion())){
+			solicitudResponseVOList.get(0).getSolicitudVO().setEstado("RADICADA");
+		}else{
+			solicitudResponseVOList.get(0).getSolicitudVO().setEstado("DESIGNACION");
+		}
 		
 		generarNumeroRadicado();
     	

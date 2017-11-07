@@ -63,6 +63,7 @@ public class AceptarDesignacionController {
 				}else{
 					aceptada = true;
 					solicitudResponseVO.getDesignacionVOList().get(0).setConciliadorVO(null);
+					solicitudResponseVO.getDesignacionVOList().get(0).setTipoDesignacion("Reparto");
 					designacionService.update(solicitudResponseVO.getDesignacionVOList().get(0));
 					
 					solicitudResponseVO.getSolicitudVO().setEstado("RADICADA");

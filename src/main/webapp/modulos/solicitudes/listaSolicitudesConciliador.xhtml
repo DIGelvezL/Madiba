@@ -150,9 +150,6 @@
 		<div class='main-footer' style="height: 43.11111px;">
 			<div class="text-center">
 				<h:form id='formBotones'>
-
-					<h:commandButton value="Liquidar Solicitud" action="liquidarSolicitud" actionListener="#{solicitudResponseVO.setIdSolicitud(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" 
-						 styleClass="btn btn-sm btn-primary btn-menu" disabled="#{controllerSolicitud.bloquearBotonLiquidarSolicitud()}"/>
 					
 					<h:commandButton value="Aceptar Designación" action="aceptarDesignacion" actionListener="#{solicitudResponseVO.setIdSolicitud(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" 
 						 styleClass="btn btn-sm btn-success btn-menu" />
