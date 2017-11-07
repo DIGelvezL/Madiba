@@ -557,6 +557,12 @@ public class ControllerSolicitud {
 	public boolean bloquearBotonRadicar(){
 		return "PAGADA".equals(this.consultaModelSolicitud.getStatusSelect()) && !this.consultaModelSolicitud.getSelectSolicitud().isEmpty() ? false: true;
 	}
+	
+	public boolean bloquearBotonProgramarAudiencia(){
+		return "DESIGNACION".equals(this.consultaModelSolicitud.getStatusSelect()) && !this.consultaModelSolicitud.getSelectSolicitud().isEmpty() &&
+				Objects.nonNull(this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().get(0).getAceptada()) && 
+				this.consultaModelSolicitud.getSelectSolicitud().get(0).getDesignacions().get(0).getAceptada() ? false: true;
+	}
 		
 	public boolean bloquearBotonRegistrarPago(){
 		if(this.consultaModelSolicitud.getSelectSolicitud().size()==1){

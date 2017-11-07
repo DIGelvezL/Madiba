@@ -114,6 +114,7 @@
 					<ui:include src="modalRegistrarPago.xhtml"></ui:include>
 					<ui:include src="modal/modalRadicarSolicitud.xhtml"></ui:include>					
 					<ui:include src="modalradicar.xhtml"></ui:include>
+					<ui:include src="programarAudiencia/modalProgramarAudiencia.xhtml"></ui:include>
 					
 					<div class="col-md-12">
 						<div class="nav-tabs-custom">
@@ -286,8 +287,9 @@
 						<f:ajax  listener="#{controllerConciliador.reparto(modelSolicitud.selectSolicitud.get(0))}" render=":formModalAsignarConciliador"></f:ajax>
 					</h:commandButton>
 					
-					<h:commandButton value="Programar Audiencia" action="liquidarSolicitud" actionListener="#{solicitudResponseVO.setIdSolicitud(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" 
-						 styleClass="btn btn-sm btn-primary btn-menu" disabled="#{controllerSolicitud.bloquearBotonLiquidarSolicitud()}"/>
+					<h:commandButton id="btn-programarAudiencia" onclick="$('#modalProgramarAudiencia').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Programar Audiencia" disabled="#{controllerSolicitud.bloquearBotonProgramarAudiencia()}">
+						<f:ajax render=":modalProgramarAudienciaForm"></f:ajax>
+					</h:commandButton>
 					
 					<h:commandButton value="Detalle Audiencias" action="listaaudienciadetalletabla" actionListener="#{controllerSession.setIdSolicitudAudienciaDetalle(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" disabled="#{modelSolicitud.selectSolicitud.size()==1? 'false': 'true'}" styleClass="btn btn-sm btn-primary btn-menu"/>
 					
