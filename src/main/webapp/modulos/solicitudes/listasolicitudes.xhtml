@@ -288,7 +288,7 @@
 					</h:commandButton>
 					
 					<h:commandButton id="btn-programarAudiencia" onclick="$('#modalProgramarAudiencia').modal();" styleClass="btn btn-sm btn-primary btn-menu" value="Programar Audiencia" disabled="#{controllerSolicitud.bloquearBotonProgramarAudiencia()}">
-						<f:ajax render=":modalProgramarAudienciaForm"></f:ajax>
+						<f:ajax listener="#{programarAudienciaController.findSolicitudById}" render=":modalProgramarAudienciaForm"></f:ajax>
 					</h:commandButton>
 					
 					<h:commandButton value="Detalle Audiencias" action="listaaudienciadetalletabla" actionListener="#{controllerSession.setIdSolicitudAudienciaDetalle(modelSolicitud.selectSolicitud.get(0).idSolicitud)}" disabled="#{modelSolicitud.selectSolicitud.size()==1? 'false': 'true'}" styleClass="btn btn-sm btn-primary btn-menu"/>

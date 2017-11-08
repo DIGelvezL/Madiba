@@ -134,6 +134,11 @@ public class ModelSolicitud {
 					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
 					findSolicitudById(auxSolicitud.getIdSolicitud());
 				}
+				
+				if(auxSolicitud.getConciliable() && "DESIGNACION".equals(auxSolicitud.getEstado())){
+					solicitudResponseVO.setIdSolicitud(auxSolicitud.getIdSolicitud());
+					findSolicitudById(auxSolicitud.getIdSolicitud());
+				}
 			}
 		}
 	}

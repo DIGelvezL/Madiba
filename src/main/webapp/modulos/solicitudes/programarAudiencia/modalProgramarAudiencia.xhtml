@@ -3,13 +3,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
 <body>
 	<ui:composition>
 	
-		<div class="modal inmodal" id="modalProgramarAudiencia" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal inmodal" id="modalProgramarAudiencia" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="animated flipInY">
 					<div class="box box-primary box-solid animated flipInY">
@@ -21,48 +22,72 @@
 									<div class="row">
 										<p:growl id="messages" showDetail="true" />
 										<div class="col-lg-12">
-				              				<h:outputLabel styleClass="text-center" value="Solicitud No. #{modelSolicitud.solicitudResponseVO.idSolicitud}" />				              				
+				              				<h:outputLabel styleClass="text-center" value="Radicado No. #{programarAudienciaController.solicitudResponseVOList.get(0).solicitudVO.nroRadicado}" />				              				
 				              			</div>
 									</div>
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<h:outputLabel value="Banco: " />
-											<h:selectOneMenu class="form-control" id="idBanco" value="#{registrarPagoController.pagoVO.banco}" >
-									            <f:selectItem itemLabel="Select One" itemValue="" />
-									            <f:selectItem itemLabel="Bancolombia" itemValue="1" />
-									        </h:selectOneMenu>
+											<h:outputLabel value="Fecha: " />
+       										<p:inputText class="fa" value="#{programarAudienciaController.fecha}" id="fecha" style="width:115px;text-align:center" a:data-inputmask="'alias': 'yyyy-mm-dd'" a:data-mask="" >
+								        		<f:ajax event="blur" render="fecha" execute="@this" listener="#{programarAudienciaController.valFech}"></f:ajax>
+								        	</p:inputText>
 										</div>
 									</div>
 									<div class="col-lg-6">		
 										<div class="form-group">
-											<h:outputLabel value="Referencia: " />
-											<h:inputText value="#{modelSolicitud.pagoReferencia}" readonly="true" styleClass="form-control"  >
-											</h:inputText>
+											<h:outputLabel value="Sala: " />
+											<h:selectOneMenu class="form-control" id="idSala" value="#{programarAudienciaController.salaVO.idSala}" >
+									            <f:selectItem itemLabel="Select One" itemValue="" />
+									            <f:selectItem itemLabel="Sala de Juntas" itemValue="1" />
+									            <f:selectItem itemLabel="sala 2" itemValue="2" />
+									            <f:selectItem itemLabel="sala 3" itemValue="3" />
+									        </h:selectOneMenu>
 										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
-											<h:outputLabel value="Forma de Pago: " />
-											<h:selectOneMenu class="form-control" id="idFormaPago" value="#{registrarPagoController.pagoVO.formaPago}" >
+											<h:outputLabel value="Hora Inicial: " />
+											<h:selectOneMenu class="form-control" id="idHoraInicial" value="#{programarAudienciaController.agendaVO.horaInicial}" >
 									            <f:selectItem itemLabel="Select One" itemValue="" />
-									            <f:selectItem itemLabel="Consignación" itemValue="3" />
+									            <f:selectItem itemLabel="08:00" itemValue="800" />
+									            <f:selectItem itemLabel="09:00" itemValue="900" />
+									            <f:selectItem itemLabel="10:00" itemValue="1000" />
+									            <f:selectItem itemLabel="11:00" itemValue="1100" />
+									            <f:selectItem itemLabel="12:00" itemValue="1200" />
+									            <f:selectItem itemLabel="13:00" itemValue="1300" />
+									            <f:selectItem itemLabel="14:00" itemValue="1400" />
+									            <f:selectItem itemLabel="15:00" itemValue="1500" />
+									            <f:selectItem itemLabel="16:00" itemValue="1600" />
+									            <f:selectItem itemLabel="17:00" itemValue="1700" />
+									            <f:selectItem itemLabel="18:00" itemValue="1800" />
 									        </h:selectOneMenu>
 										</div>
 									</div>
 									<div class="col-lg-6">		
 										<div class="form-group">
-											<h:outputLabel value="Total a Pagar: " />
-											<h:inputText value="#{modelSolicitud.solicitudResponseVOList[0].solicitudVO.valorPagar}" readonly="true" styleClass="form-control" >
-												<f:convertNumber currencySymbol="$" type="currency" maxFractionDigits="2" minFractionDigits="2" />
-											</h:inputText>
+											<h:outputLabel value="Hora Final: " />
+											<h:selectOneMenu class="form-control" id="idHoraFinal" value="#{programarAudienciaController.agendaVO.horaFinal}" >
+									            <f:selectItem itemLabel="Select One" itemValue="" />
+									            <f:selectItem itemLabel="08:00" itemValue="800" />
+									            <f:selectItem itemLabel="09:00" itemValue="900" />
+									            <f:selectItem itemLabel="10:00" itemValue="1000" />
+									            <f:selectItem itemLabel="11:00" itemValue="1100" />
+									            <f:selectItem itemLabel="12:00" itemValue="1200" />
+									            <f:selectItem itemLabel="13:00" itemValue="1300" />
+									            <f:selectItem itemLabel="14:00" itemValue="1400" />
+									            <f:selectItem itemLabel="15:00" itemValue="1500" />
+									            <f:selectItem itemLabel="16:00" itemValue="1600" />
+									            <f:selectItem itemLabel="17:00" itemValue="1700" />
+									            <f:selectItem itemLabel="18:00" itemValue="1800" />
+									        </h:selectOneMenu>
 										</div>
 									</div>
 								</div>
 							</div>
 							
 							<div class="box-footer">
-								<h:commandButton value="Programar" actionListener="#{registrarPagoController.registrarPago}" action="listasolicitudes" onclick="$('#modalProgramarAudiencia').modal('hide');" styleClass="btn btn-info pull-right" />
+								<h:commandButton value="Programar" actionListener="#{programarAudienciaController.programarAudiencia}" action="listasolicitudes" onclick="$('#modalProgramarAudiencia').modal('hide');" styleClass="btn btn-info pull-right" />
 								
 								<button class="btn btn-danger pull-right" data-dismiss="modal">Cancelar</button>
 							</div>
