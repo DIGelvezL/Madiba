@@ -11,5 +11,14 @@ public class Main {
 		Collections.sort(num); 
 		
 		num.forEach(item->System.out.println(item));
+		String entrada = "level";
+		
+		String palim = new StringBuilder(entrada).reverse().toString();
+
+		if(palim.equals(entrada)){
+			System.out.println("Es palindromo");
+		}else{
+			System.out.println("No es palindromo");
+		}
 	}
 }
