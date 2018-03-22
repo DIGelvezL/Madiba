@@ -20,5 +20,13 @@ public class Main {
 		}else{
 			System.out.println("No es palindromo");
 		}
+		
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			System.out.println("Es palindromo");
+		}
+		
+		System.out.println("fasdbaiufhbiasufdiauo");
 	}
 }
